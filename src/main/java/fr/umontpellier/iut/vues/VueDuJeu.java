@@ -21,6 +21,14 @@ public class VueDuJeu extends Pane {
         this.jeu = jeu;
         plateau = new VuePlateau();
         getChildren().add(plateau);
+
+        this.heightProperty().addListener(e -> {
+            System.out.println("toto");
+        });
+
+        this.widthProperty().addListener(e -> {
+            System.out.println("tata");
+        });
     }
 
     public IJeu getJeu() {

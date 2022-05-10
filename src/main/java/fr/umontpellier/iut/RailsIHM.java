@@ -56,12 +56,13 @@ public class RailsIHM extends Application {
         demarrerServiceJeu(); // le service doit être démarré après que les bindings ont été mis en place
 
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Rails");
+        primaryStage.setTitle("Les Aventuriers du Rails");
         primaryStage.centerOnScreen();
         primaryStage.setOnCloseRequest(event -> {
             this.onStopGame();
             event.consume();
         });
+        primaryStage.setResizable(true);
         primaryStage.show();
     }
 
