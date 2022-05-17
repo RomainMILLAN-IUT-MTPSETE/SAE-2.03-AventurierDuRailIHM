@@ -3,6 +3,7 @@ package fr.umontpellier.iut;
 import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Destination;
 import javafx.collections.ObservableList;
+import javafx.scene.paint.Paint;
 
 import java.util.List;
 

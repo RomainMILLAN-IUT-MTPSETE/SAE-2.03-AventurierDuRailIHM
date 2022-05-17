@@ -177,8 +177,10 @@ public class Jeu extends Task<Void> implements IJeu {
      * Exécute la partie
      */
     public void run() {
+        joueurs.get(0).getCartesWagon().add(CouleurWagon.BLANC);
+        joueurs.get(0).getCartesWagon().add(CouleurWagon.BLANC);
         joueurCourant.setValue(joueurs.get(0));
-        // Choix des destinations initiales pour chaque joueur (au moins deux parmi 3
+// Choix des destinations initiales pour chaque joueur (au moins deux parmi 3
         // courtes et 1 longue)
         ArrayList<Destination> pileDestinationsLongues = Destination.makeDestinationsLonguesEurope();
         Collections.shuffle(pileDestinationsLongues);

@@ -29,7 +29,7 @@ public class VueAutresJoueurs extends GridPane {
         this.setPrefWidth(250);
         this.setStyle("-fx-background-color: red;");
         this.setTranslateY(50);
-        this.setTranslateX(5);
+        this.setTranslateX(-5);
 
         pane.setGridLinesVisible(true);
 

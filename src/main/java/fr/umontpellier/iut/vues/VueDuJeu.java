@@ -2,6 +2,7 @@ package fr.umontpellier.iut.vues;
 
 import fr.umontpellier.iut.ICouleurWagon;
 import fr.umontpellier.iut.IJeu;
+import fr.umontpellier.iut.rails.CouleurWagon;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -10,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -79,13 +81,19 @@ public class VueDuJeu extends BorderPane {
         plateauView.setFitWidth(850.5);
         plateauView.setFitHeight(548.5);
         //
-        // this.plateauView.setTranslateX(-100);
+        //this.plateauView.setTranslateX(-100);
         //this.plateauView.setTranslateY(-75);
 
-        //Card
+        /*//Card
+        BorderPane bas = new BorderPane();
+        HBox cartesVisibles = new HBox();
         for(int i=0; i<5; i++){
-            VueCarteWagon vcw = new VueCarteWagon(this.getJeu().cartesWagonVisiblesProperty().get(0));
+            cartesVisibles.getChildren().add(new VueCarteWagon(CouleurWagon.LOCOMOTIVE));
         }
+        cartesVisibles.setSpacing(10);
+        bas.setAlignment(cartesVisibles, Pos.CENTER);
+        bas.setTop(cartesVisibles);
+        */
 
         this.setLeft(joueurCourant);
         this.setRight(autresJoueurs);
@@ -109,7 +117,7 @@ public class VueDuJeu extends BorderPane {
          */
         this.heightProperty().addListener(e -> {
             this.plateauView.setFitHeight(this.getHeight()/1.75);
-            this.joueurCourant.setPrefHeight(this.getHeight()/5);
+            //this.joueurCourant.setPrefHeight(this.getHeight()/500);
         });
         this.widthProperty().addListener(e -> {
             this.plateauView.setFitWidth(this.getWidth()/1.75);
