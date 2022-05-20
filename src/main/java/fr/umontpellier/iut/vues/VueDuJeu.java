@@ -53,6 +53,7 @@ public class VueDuJeu extends BorderPane {
         haut.setCenter(titlePage);
         haut.setAlignment(titlePage, Pos.CENTER);
 
+        //REGLES
         Button rulesButton = new Button("Règles");
         rulesButton.setText("Règles");
         rulesButton.setPrefWidth(100);
