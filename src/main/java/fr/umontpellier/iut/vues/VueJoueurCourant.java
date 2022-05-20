@@ -3,6 +3,7 @@ package fr.umontpellier.iut.vues;
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.rails.CouleurWagon;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ListChangeListener;
@@ -200,12 +201,10 @@ public class VueJoueurCourant extends BorderPane {
         for(int i=0; i<3; i++){
             for(int j=0; j<3; j++){
                 card = new VBox();
-                System.out.println("images/cartesWagons/carte-wagon-" + CouleurWagon.getCouleursNoGris().get(x).toString().toUpperCase() + ".png");
                 imageCard = new ImageView(new Image("images/cartesWagons/carte-wagon-" + CouleurWagon.getCouleursNoGris().get(x).toString().toUpperCase() + ".png"));
                 imageCard.setFitHeight(55);
                 imageCard.setFitWidth(85);
                 stringNumberOfWagonCard = String.valueOf(cartesJoueur.get(CouleurWagon.getCouleursNoGris().get(x)));
-                System.out.println("| " + stringNumberOfWagonCard);
                 backNumber = new Circle();
                 backNumber.setFill(Color.web("#4B4B4B"));
                 backNumber.setRadius(10);
@@ -303,6 +302,7 @@ public class VueJoueurCourant extends BorderPane {
         });*/
 
         this.jeu.joueurCourantProperty().addListener(e -> {
+            System.out.println("HELLo");
             //TEXT & IMAGE
             this.pseudo.setText(this.jeu.joueurCourantProperty().getValue().getNom());
             this.imgViewAvatar.setImage(new Image("images/avatars/avatar-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));
@@ -313,7 +313,7 @@ public class VueJoueurCourant extends BorderPane {
             this.gareLabel.setText(String.valueOf(this.jeu.joueurCourantProperty().getValue().getNbGares()));
 
             //DESTINATIONS
-            this.allDestinations.getChildren().clear();
+            this.allDestinations = new VBox();
             for(int i=0; i<this.jeu.joueurCourantProperty().getValue().getDestinations().size(); i++){
                 Label destinationLabel = new Label(this.jeu.joueurCourantProperty().getValue().getDestinations().get(i).getNom());
                 destinationLabel.setFont(Font.font("QuickSand", FontWeight.NORMAL, 16));
@@ -322,10 +322,7 @@ public class VueJoueurCourant extends BorderPane {
             }
 
             //CARTES
-            Map<CouleurWagon, Integer> cartesJoueur = CouleurWagon.compteur(this.jeu.getJoueurs().get(0).getCartesWagon());
-            //DEBUG
-            System.out.println("All Card: " + cartesJoueur.toString());
-            //DEBUG
+            Map<CouleurWagon, Integer> cartesJoueur = CouleurWagon.compteur(this.jeu.joueurCourantProperty().getValue().getCartesWagon());
             this.ORANGETXT.setText(String.valueOf(cartesJoueur.get(CouleurWagon.ORANGE)));
             this.BLANCTXT.setText(String.valueOf(cartesJoueur.get(CouleurWagon.BLANC)));
             this.BLEUTXT.setText(String.valueOf(cartesJoueur.get(CouleurWagon.BLEU)));
@@ -334,7 +331,7 @@ public class VueJoueurCourant extends BorderPane {
             this.LOCOMOTIVETXT.setText(String.valueOf(cartesJoueur.get(CouleurWagon.LOCOMOTIVE)));
             this.VERTTXT.setText(String.valueOf(cartesJoueur.get(CouleurWagon.VERT)));
             this.JAUNETXT.setText(String.valueOf(cartesJoueur.get(CouleurWagon.JAUNE)));
-            this.NOIRTXT.setText(String.valueOf(cartesJoueur.get(CouleurWagon.NOIR)));
+            this.NOIRTXT.setText("T");
 
         });
     }

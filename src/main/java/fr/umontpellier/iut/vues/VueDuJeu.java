@@ -35,6 +35,9 @@ public class VueDuJeu extends BorderPane {
 
     private Label titlePage;
 
+    //BOTTOM
+    Button passer;
+
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
         this.setPrefHeight(900);
@@ -42,6 +45,11 @@ public class VueDuJeu extends BorderPane {
         this.setMinHeight(900);
         this.setMinWidth(1600);
         this.setStyle("-fx-background-color: #F3DEC4");
+
+        this.jeu.getJoueurs().get(2).getCartesWagon().add(CouleurWagon.LOCOMOTIVE);
+        this.jeu.getJoueurs().get(2).getCartesWagon().add(CouleurWagon.LOCOMOTIVE);
+        this.jeu.getJoueurs().get(2).getCartesWagon().add(CouleurWagon.LOCOMOTIVE);
+        this.jeu.getJoueurs().get(2).getCartesWagon().add(CouleurWagon.LOCOMOTIVE);
 
         //HAUT
         BorderPane haut = new BorderPane();
@@ -85,20 +93,24 @@ public class VueDuJeu extends BorderPane {
         //this.plateauView.setTranslateX(-100);
         //this.plateauView.setTranslateY(-75);
 
-        /*//Card
+        //Card
         BorderPane bas = new BorderPane();
+        //Cartes Visibles
         HBox cartesVisibles = new HBox();
         for(int i=0; i<5; i++){
             cartesVisibles.getChildren().add(new VueCarteWagon(CouleurWagon.LOCOMOTIVE));
         }
         cartesVisibles.setSpacing(10);
         bas.setAlignment(cartesVisibles, Pos.CENTER);
+        //Passer
+        passer = new Button("Passer");
         bas.setTop(cartesVisibles);
-        */
+        bas.setRight(passer);
 
         this.setLeft(joueurCourant);
         this.setRight(autresJoueurs);
         this.setCenter(plateauView);
+        this.setBottom(bas);
         this.setTop(haut);
     }
 
@@ -124,6 +136,10 @@ public class VueDuJeu extends BorderPane {
             this.plateauView.setFitWidth(this.getWidth()/1.75);
             this.joueurCourant.setPrefWidth(this.getWidth()/5);
         });*/
+
+        this.passer.setOnAction(e -> {
+            this.jeu.passerAEteChoisi();
+        });
     }
 
 }
