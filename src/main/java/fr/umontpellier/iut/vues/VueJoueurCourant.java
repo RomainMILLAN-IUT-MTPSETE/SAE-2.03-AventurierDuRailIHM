@@ -198,12 +198,16 @@ public class VueJoueurCourant extends BorderPane {
         });*/
 
         this.jeu.joueurCourantProperty().addListener(e -> {
+            //TEXT & IMAGE
             this.pseudo.setText(this.jeu.joueurCourantProperty().getValue().getNom());
             this.imgViewAvatar.setImage(new Image("images/avatars/avatar-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));
             this.setStyle("-fx-background-color: " + this.convertFrenchColorToEnglishColor(this.jeu.joueurCourantProperty().getValue().getCouleur().toString()));
             this.wagonImgView.setImage(new Image("images/wagons/image-wagon-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));
+            this.wagonLabel.setText(String.valueOf(this.jeu.joueurCourantProperty().getValue().getNbWagons()));
             this.gareImgView.setImage(new Image("images/gares/gare-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));
+            this.gareLabel.setText(String.valueOf(this.jeu.joueurCourantProperty().getValue().getNbGares()));
 
+            //DESTINATIONS
             this.allDestinations.getChildren().clear();
             for(int i=0; i<this.jeu.joueurCourantProperty().getValue().getDestinations().size(); i++){
                 Label destinationLabel = new Label(this.jeu.joueurCourantProperty().getValue().getDestinations().get(i).getNom());
@@ -212,6 +216,7 @@ public class VueJoueurCourant extends BorderPane {
                 this.allDestinations.getChildren().add(destinationLabel);
             }
 
+            //CARTES
             Map<CouleurWagon, Integer> cartesJoueur = CouleurWagon.compteur(this.jeu.joueurCourantProperty().getValue().getCartesWagon());
             //DEBUG
             System.out.println("All Card: " + cartesJoueur.toString());
@@ -220,6 +225,7 @@ public class VueJoueurCourant extends BorderPane {
             HBox cardTwoLigne = new HBox();
             HBox cardThreeLigne = new HBox();
 
+            /*
             int x=0;
             for(int i=0; i<3; i++){
                 for(int j=0; j<3; j++){
@@ -230,10 +236,10 @@ public class VueJoueurCourant extends BorderPane {
                     imageCard.setFitWidth(85);
                     String str = String.valueOf(cartesJoueur.get(CouleurWagon.getCouleursNoGris().get(x)));
                     Label txt = new Label(str);
-                    /*Circle backNumber = new Circle();
+                    Circle backNumber = new Circle();
                     backNumber.setFill(Color.web("#4B4B4B"));
                     backNumber.setRadius(10);
-                    StackPane stack = new StackPane();*/
+                    StackPane stack = new StackPane();
                     if(x==0 || x==3 || x==6){
                         imageCard.setTranslateX(2.5);
                     }else if(x==1 || x==4 || x==7){
@@ -242,7 +248,7 @@ public class VueJoueurCourant extends BorderPane {
                         imageCard.setTranslateX(20);
                     }
 
-                    //stack.getChildren().addAll(backNumber, txt);
+                    stack.getChildren().addAll(backNumber, txt);
                     System.out.println(cartesJoueur.get(CouleurWagon.getCouleursNoGris().get(x)).toString());
                     card.getChildren().addAll(imageCard, txt);
 
@@ -270,6 +276,7 @@ public class VueJoueurCourant extends BorderPane {
                     x++;
                 }
             }
+             */
             this.cardAll.getChildren().clear();
             this.cardAll.getChildren().addAll(cardOneLigne, cardTwoLigne, cardThreeLigne);
         });
