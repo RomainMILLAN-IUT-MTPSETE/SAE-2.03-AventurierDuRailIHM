@@ -50,7 +50,7 @@ public class VueJoueurCourant extends BorderPane {
     //CENTER
     VBox center;
     Label cardTitle;
-    HBox cardAll;
+    VBox cardAll;
 
     //BOTTOM
     VBox bottom;
@@ -63,7 +63,7 @@ public class VueJoueurCourant extends BorderPane {
         this.setMaxHeight(500);
         this.setMinSize(200, 200);
         this.setPrefHeight(500);
-        this.setPrefWidth(250);
+        this.setPrefWidth(300);
         this.setStyle("-fx-background-color: green");
         this.setTranslateY(50);
         this.setTranslateX(5);
@@ -150,7 +150,7 @@ public class VueJoueurCourant extends BorderPane {
         cardTitle.setFont(Font.font("QuickSand", FontPosture.REGULAR, 18));
         cardTitle.setStyle("-fx-underline: true");
         cardTitle.setTextFill(Color.WHITE);
-        cardAll = new HBox();
+        cardAll = new VBox();
         cardAll.setMaxWidth(this.getWidth());
         cardAll.setPrefHeight(this.getWidth());
         cardAll.setMinWidth(this.getWidth());
@@ -171,13 +171,6 @@ public class VueJoueurCourant extends BorderPane {
         cardSelectTitle.setTextFill(Color.WHITE);
         allCardSelected = new HBox();
         allCardSelected.setTranslateX(5);
-        /*for(int i=0; i<5; i++){
-            ImageView imgv = new ImageView(new Image("images/cartesWagons/carte-wagon-BLANC.png"));
-            imgv.setFitHeight(45);
-            imgv.setFitWidth(80);
-            allCardSelected.getChildren().add(imgv);
-        }
-        allCardSelected.setAlignment(Pos.BOTTOM_LEFT);*/
 
         bottom.getChildren().addAll(cardSelectTitle, allCardSelected);
         bottom.setTranslateY(-10);
@@ -196,13 +189,13 @@ public class VueJoueurCourant extends BorderPane {
     }
 
     private void createBinding(){
-        this.widthProperty().addListener(e -> {
+        /*this.widthProperty().addListener(e -> {
             this.gareEtWagon.setTranslateX(this.getWidth()/7.5);
         });
 
         this.heightProperty().addListener(e -> {
             this.setPrefHeight(this.getHeight()/1.5);
-        });
+        });*/
 
         this.jeu.joueurCourantProperty().addListener(e -> {
             this.pseudo.setText(this.jeu.joueurCourantProperty().getValue().getNom());
@@ -221,37 +214,64 @@ public class VueJoueurCourant extends BorderPane {
 
             Map<CouleurWagon, Integer> cartesJoueur = CouleurWagon.compteur(this.jeu.joueurCourantProperty().getValue().getCartesWagon());
             //DEBUG
-            System.out.println(cartesJoueur.toString());
+            System.out.println("All Card: " + cartesJoueur.toString());
             //DEBUG
-            if(cartesJoueur.size() > 0){
-                HBox cardAllTemp = new HBox();
-                for(CouleurWagon cw : CouleurWagon.getCouleursSimples()){
-                    if(cartesJoueur.get(cw) > 0 && !cw.equals(CouleurWagon.GRIS) && !cw.equals(CouleurWagon.BLANC)){
-                        VBox card = new VBox();
-                        card.setTranslateX(25);
-                        ImageView carte = new ImageView(new Image("images/cartesWagons/carte-wagon-" + cw.toString() + ".png"));
-                        carte.setFitWidth(80);
-                        carte.setFitHeight(45);
-                        Circle backNumber = new Circle();
-                        backNumber.setFill(Color.web("#4B4B4B"));
-                        backNumber.setRadius(10);
-                        Text number = new Text(cartesJoueur.get(cw).toString());
-                        number.setBoundsType(TextBoundsType.VISUAL);
-                        number.setFont(Font.font("QuickSand", FontPosture.REGULAR, 16));
-                        number.setStyle("-fx-background-color: #8C8C8C;");
-                        number.setFill(Color.WHITE);
-                        StackPane stackCardNumberCircle = new StackPane();
+            HBox cardOneLigne = new HBox();
+            HBox cardTwoLigne = new HBox();
+            HBox cardThreeLigne = new HBox();
 
-                        stackCardNumberCircle.getChildren().addAll(backNumber, number);
-                        card.getChildren().addAll(carte,stackCardNumberCircle);
-                        stackCardNumberCircle.setTranslateX(carte.getFitWidth()/2);
-                        stackCardNumberCircle.setTranslateY(-10);
-                        cardAllTemp.getChildren().addAll(card);
+            int x=0;
+            for(int i=0; i<3; i++){
+                for(int j=0; j<3; j++){
+                    VBox card = new VBox();
+                    System.out.println("images/cartesWagons/carte-wagon-" + CouleurWagon.getCouleursNoGris().get(x).toString().toUpperCase() + ".png");
+                    ImageView imageCard = new ImageView(new Image("images/cartesWagons/carte-wagon-" + CouleurWagon.getCouleursNoGris().get(x).toString().toUpperCase() + ".png"));
+                    imageCard.setFitHeight(55);
+                    imageCard.setFitWidth(85);
+                    String str = String.valueOf(cartesJoueur.get(CouleurWagon.getCouleursNoGris().get(x)));
+                    Label txt = new Label(str);
+                    /*Circle backNumber = new Circle();
+                    backNumber.setFill(Color.web("#4B4B4B"));
+                    backNumber.setRadius(10);
+                    StackPane stack = new StackPane();*/
+                    if(x==0 || x==3 || x==6){
+                        imageCard.setTranslateX(2.5);
+                    }else if(x==1 || x==4 || x==7){
+                        imageCard.setTranslateX(12.5);
+                    }else if(x==2 || x==5 || x==8){
+                        imageCard.setTranslateX(20);
                     }
+
+                    //stack.getChildren().addAll(backNumber, txt);
+                    System.out.println(cartesJoueur.get(CouleurWagon.getCouleursNoGris().get(x)).toString());
+                    card.getChildren().addAll(imageCard, txt);
+
+                    if(x>=0 && x<3){
+                        cardOneLigne.getChildren().addAll(card);
+                    }else if(x>=3 && x<6){
+                        cardTwoLigne.getChildren().addAll(card);
+                    }else {
+                        cardThreeLigne.getChildren().addAll(card);
+                    }
+
+                    int finalX = x;
+                    card.setOnMouseClicked(event -> {
+                        if(cartesJoueur.get(CouleurWagon.getCouleursNoGris().get(finalX)) > 0){
+                            for(int k=0; k<this.jeu.joueurCourantProperty().getValue().getCartesWagon().size(); k++){
+                                if(this.jeu.joueurCourantProperty().getValue().getCartesWagon().get(k).equals(CouleurWagon.getCouleursNoGris().get(finalX))){
+                                    this.jeu.joueurCourantProperty().getValue().getCartesWagon().remove(k);
+                                    System.out.println("OK");
+                                }
+                            }
+                        }else {
+                            System.out.println("ERROR: Nombre de carte impossible à enlever dans les cartes du joueurs.");
+                        }
+                    });
+                    x++;
                 }
-                this.cardAll.getChildren().addAll(cardAllTemp);
-                System.out.println("Test !");
             }
+            this.cardAll.getChildren().clear();
+            this.cardAll.getChildren().addAll(cardOneLigne, cardTwoLigne, cardThreeLigne);
         });
     }
 

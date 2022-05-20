@@ -66,4 +66,15 @@ public enum CouleurWagon implements ICouleurWagon {
         }
         return c;
     }
+
+
+    /*
+    PERSO
+     */
+    /*
+     Renvoie la liste des couleurs sans GRIS
+     */
+    public static ArrayList<CouleurWagon> getCouleursNoGris() {
+        return new ArrayList<>(List.of(NOIR, BLANC, JAUNE, ROUGE, ORANGE, BLEU, VERT, ROSE, LOCOMOTIVE));
+    }
 }

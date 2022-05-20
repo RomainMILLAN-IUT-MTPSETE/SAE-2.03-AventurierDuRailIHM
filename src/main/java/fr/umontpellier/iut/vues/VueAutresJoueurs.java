@@ -24,9 +24,9 @@ public class VueAutresJoueurs extends GridPane {
 
         this.jeu = jeu;
         this.setMaxHeight(500);
-        this.setMaxWidth(250);
+        this.setMaxWidth(350);
         this.setPrefHeight(500);
-        this.setPrefWidth(250);
+        this.setPrefWidth(350);
         this.setStyle("-fx-background-color: red;");
         this.setTranslateY(50);
         this.setTranslateX(-5);

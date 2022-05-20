@@ -37,10 +37,10 @@ public class VueDuJeu extends BorderPane {
 
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
-        this.setPrefHeight(720);
-        this.setPrefWidth(1280);
-        this.setMinHeight(720);
-        this.setMinWidth(1280);
+        this.setPrefHeight(900);
+        this.setPrefWidth(1600);
+        this.setMinHeight(900);
+        this.setMinWidth(1600);
         this.setStyle("-fx-background-color: #F3DEC4");
 
         //HAUT
@@ -115,14 +115,14 @@ public class VueDuJeu extends BorderPane {
          *             System.out.println("tata");
          *         });
          */
-        this.heightProperty().addListener(e -> {
+        /*this.heightProperty().addListener(e -> {
             this.plateauView.setFitHeight(this.getHeight()/1.75);
             //this.joueurCourant.setPrefHeight(this.getHeight()/500);
         });
         this.widthProperty().addListener(e -> {
             this.plateauView.setFitWidth(this.getWidth()/1.75);
             this.joueurCourant.setPrefWidth(this.getWidth()/5);
-        });
+        });*/
     }
 
 }
