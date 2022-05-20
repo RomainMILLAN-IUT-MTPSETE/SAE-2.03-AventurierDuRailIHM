@@ -20,6 +20,7 @@ import javafx.scene.text.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Cette classe présente les éléments appartenant au joueur courant.
@@ -65,7 +66,8 @@ public class VueJoueurCourant extends BorderPane {
     HBox cardTwoLigne;
     HBox cardThreeLigne;
 
-    Label ORANGETXT = new Label("-1");
+    SimpleStringProperty ORANGETXT = new SimpleStringProperty("-1");
+    Label ORANGELABEL = new Label("" + ORANGETXT.getValue().toString());
     Label BLANCTXT = new Label("-1");
     Label BLEUTXT = new Label("-1");
     Label GRISTXT = new Label("-1");
@@ -189,7 +191,7 @@ public class VueJoueurCourant extends BorderPane {
 
         this.BLEUTXT.setTextFill(Color.WHITE);
         this.BLANCTXT.setTextFill(Color.WHITE);
-        this.ORANGETXT.setTextFill(Color.WHITE);
+        this.ORANGELABEL.setTextFill(Color.WHITE);
         this.ROUGETXT.setTextFill(Color.WHITE);
         this.ROSETXT.setTextFill(Color.WHITE);
         this.NOIRTXT.setTextFill(Color.WHITE);
@@ -208,7 +210,7 @@ public class VueJoueurCourant extends BorderPane {
                 backNumber = new Circle();
                 backNumber.setFill(Color.web("#4B4B4B"));
                 backNumber.setRadius(10);
-                stack = new StackPane();
+                //stack = new StackPane();
                 if(x==0 || x==3 || x==6){
                     imageCard.setTranslateX(2.5);
                 }else if(x==1 || x==4 || x==7){
@@ -217,7 +219,7 @@ public class VueJoueurCourant extends BorderPane {
                     imageCard.setTranslateX(20);
                 }
 
-                stack.getChildren().add(backNumber);
+                /*stack.getChildren().add(backNumber);
                 switch (CouleurWagon.getCouleursNoGris().get(x)){
                     case ORANGE -> stack.getChildren().add(this.ORANGETXT);
                     case BLANC -> stack.getChildren().add(this.BLANCTXT);
@@ -228,8 +230,27 @@ public class VueJoueurCourant extends BorderPane {
                     case ROSE -> stack.getChildren().add(this.ROSETXT);
                     case VERT -> stack.getChildren().add(this.VERTTXT);
                     case ROUGE -> stack.getChildren().add(this.ROUGETXT);
+                }*/
+                card.getChildren().addAll(imageCard);
+                if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.ORANGE){
+                    card.getChildren().add(this.ORANGELABEL);
+                }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.BLANC){
+                    card.getChildren().add(this.BLANCTXT);
+                }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.BLEU){
+                    card.getChildren().add(this.BLEUTXT);
+                }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.LOCOMOTIVE){
+                    card.getChildren().add(this.LOCOMOTIVETXT);
+                }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.NOIR){
+                    card.getChildren().add(this.NOIRTXT);
+                }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.JAUNE){
+                    card.getChildren().add(this.JAUNETXT);
+                }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.ROSE){
+                    card.getChildren().add(this.ROSETXT);
+                }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.VERT){
+                    card.getChildren().add(this.VERTTXT);
+                }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.ROUGE){
+                    card.getChildren().add(this.ROUGETXT);
                 }
-                card.getChildren().addAll(imageCard, stack);
 
                 if(x>=0 && x<3){
                     cardOneLigne.getChildren().addAll(card);
@@ -302,7 +323,7 @@ public class VueJoueurCourant extends BorderPane {
         });*/
 
         this.jeu.joueurCourantProperty().addListener(e -> {
-            System.out.println("HELLo");
+            //System.out.println(this.jeu.joueurCourantProperty().getValue().cartesWagonProperty().filtered());
             //TEXT & IMAGE
             this.pseudo.setText(this.jeu.joueurCourantProperty().getValue().getNom());
             this.imgViewAvatar.setImage(new Image("images/avatars/avatar-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));
@@ -322,17 +343,19 @@ public class VueJoueurCourant extends BorderPane {
             }
 
             //CARTES
-            Map<CouleurWagon, Integer> cartesJoueur = CouleurWagon.compteur(this.jeu.joueurCourantProperty().getValue().getCartesWagon());
-            this.ORANGETXT.setText(String.valueOf(cartesJoueur.get(CouleurWagon.ORANGE)));
-            this.BLANCTXT.setText(String.valueOf(cartesJoueur.get(CouleurWagon.BLANC)));
-            this.BLEUTXT.setText(String.valueOf(cartesJoueur.get(CouleurWagon.BLEU)));
-            this.ROSETXT.setText(String.valueOf(cartesJoueur.get(CouleurWagon.ROSE)));
-            this.ROUGETXT.setText(String.valueOf(cartesJoueur.get(CouleurWagon.ROUGE)));
-            this.LOCOMOTIVETXT.setText(String.valueOf(cartesJoueur.get(CouleurWagon.LOCOMOTIVE)));
-            this.VERTTXT.setText(String.valueOf(cartesJoueur.get(CouleurWagon.VERT)));
-            this.JAUNETXT.setText(String.valueOf(cartesJoueur.get(CouleurWagon.JAUNE)));
-            this.NOIRTXT.setText("T");
+            Map<CouleurWagon, Integer> cartesPlayer = CouleurWagon.compteur(this.jeu.joueurCourantProperty().getValue().getCartesWagon());
+            System.out.println("CartesJoueurs = " + cartesPlayer.toString());
 
+            //this.ORANGETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.ORANGE)));
+            this.ORANGETXT.set(String.valueOf(cartesPlayer.get(CouleurWagon.ORANGE)));
+            /*this.BLANCTXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.BLANC)));
+            this.BLEUTXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.BLEU)));
+            this.ROSETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.ROSE)));
+            this.ROUGETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.ROUGE)));
+            this.LOCOMOTIVETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.LOCOMOTIVE)));
+            this.VERTTXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.VERT)));
+            this.JAUNETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.JAUNE)));
+            this.NOIRTXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.NOIR)));*/
         });
     }
 
