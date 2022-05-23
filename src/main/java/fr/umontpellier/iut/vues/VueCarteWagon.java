@@ -18,12 +18,16 @@ import javafx.scene.shape.Rectangle;
 public class VueCarteWagon extends Pane {
     private ICouleurWagon couleurWagon;
 
+    ImageView imgviewCard;
+    Image imgCard;
+    String src;
+
     public VueCarteWagon(ICouleurWagon couleurWagon) {
         this.couleurWagon = couleurWagon;
 
-        String src = "images/cartesWagons/carte-wagon-" + String.valueOf(this.getCouleurWagon()).toUpperCase() + ".png";
-        Image imgCard = new Image(src);
-        ImageView imgviewCard = new ImageView(imgCard);
+        src = "images/cartesWagons/carte-wagon-" + String.valueOf(this.getCouleurWagon()).toUpperCase() + ".png";
+        imgCard = new Image(src);
+        imgviewCard = new ImageView(imgCard);
 
         imgviewCard.setFitWidth(124);
         imgviewCard.setFitHeight(80);

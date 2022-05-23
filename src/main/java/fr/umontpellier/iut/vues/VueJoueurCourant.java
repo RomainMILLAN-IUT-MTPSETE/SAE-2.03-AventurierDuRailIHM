@@ -66,8 +66,7 @@ public class VueJoueurCourant extends BorderPane {
     HBox cardTwoLigne;
     HBox cardThreeLigne;
 
-    SimpleStringProperty ORANGETXT = new SimpleStringProperty("-1");
-    Label ORANGELABEL = new Label("" + ORANGETXT.getValue().toString());
+    Label ORANGETXT = new Label("-1");
     Label BLANCTXT = new Label("-1");
     Label BLEUTXT = new Label("-1");
     Label GRISTXT = new Label("-1");
@@ -191,7 +190,7 @@ public class VueJoueurCourant extends BorderPane {
 
         this.BLEUTXT.setTextFill(Color.WHITE);
         this.BLANCTXT.setTextFill(Color.WHITE);
-        this.ORANGELABEL.setTextFill(Color.WHITE);
+        this.ORANGETXT.setTextFill(Color.WHITE);
         this.ROUGETXT.setTextFill(Color.WHITE);
         this.ROSETXT.setTextFill(Color.WHITE);
         this.NOIRTXT.setTextFill(Color.WHITE);
@@ -233,7 +232,7 @@ public class VueJoueurCourant extends BorderPane {
                 }*/
                 card.getChildren().addAll(imageCard);
                 if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.ORANGE){
-                    card.getChildren().add(this.ORANGELABEL);
+                    card.getChildren().add(this.ORANGETXT);
                 }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.BLANC){
                     card.getChildren().add(this.BLANCTXT);
                 }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.BLEU){
@@ -323,39 +322,41 @@ public class VueJoueurCourant extends BorderPane {
         });*/
 
         this.jeu.joueurCourantProperty().addListener(e -> {
-            //System.out.println(this.jeu.joueurCourantProperty().getValue().cartesWagonProperty().filtered());
-            //TEXT & IMAGE
-            this.pseudo.setText(this.jeu.joueurCourantProperty().getValue().getNom());
-            this.imgViewAvatar.setImage(new Image("images/avatars/avatar-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));
-            this.setStyle("-fx-background-color: " + this.convertFrenchColorToEnglishColor(this.jeu.joueurCourantProperty().getValue().getCouleur().toString()));
-            this.wagonImgView.setImage(new Image("images/wagons/image-wagon-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));
-            this.wagonLabel.setText(String.valueOf(this.jeu.joueurCourantProperty().getValue().getNbWagons()));
-            this.gareImgView.setImage(new Image("images/gares/gare-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));
-            this.gareLabel.setText(String.valueOf(this.jeu.joueurCourantProperty().getValue().getNbGares()));
+            Platform.runLater(() -> {
+                //System.out.println(this.jeu.joueurCourantProperty().getValue().cartesWagonProperty().filtered());
+                //TEXT & IMAGE
+                this.pseudo.setText(this.jeu.joueurCourantProperty().getValue().getNom());
+                this.imgViewAvatar.setImage(new Image("images/avatars/avatar-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));
+                this.setStyle("-fx-background-color: " + this.convertFrenchColorToEnglishColor(this.jeu.joueurCourantProperty().getValue().getCouleur().toString()));
+                this.wagonImgView.setImage(new Image("images/wagons/image-wagon-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));
+                this.wagonLabel.setText(String.valueOf(this.jeu.joueurCourantProperty().getValue().getNbWagons()));
+                this.gareImgView.setImage(new Image("images/gares/gare-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));
+                this.gareLabel.setText(String.valueOf(this.jeu.joueurCourantProperty().getValue().getNbGares()));
 
-            //DESTINATIONS
-            this.allDestinations = new VBox();
-            for(int i=0; i<this.jeu.joueurCourantProperty().getValue().getDestinations().size(); i++){
-                Label destinationLabel = new Label(this.jeu.joueurCourantProperty().getValue().getDestinations().get(i).getNom());
-                destinationLabel.setFont(Font.font("QuickSand", FontWeight.NORMAL, 16));
-                destinationLabel.setTextFill(Color.WHITE);
-                this.allDestinations.getChildren().add(destinationLabel);
-            }
+                //DESTINATIONS
+                this.allDestinations = new VBox();
+                for(int i=0; i<this.jeu.joueurCourantProperty().getValue().getDestinations().size(); i++){
+                    Label destinationLabel = new Label(this.jeu.joueurCourantProperty().getValue().getDestinations().get(i).getNom());
+                    destinationLabel.setFont(Font.font("QuickSand", FontWeight.NORMAL, 16));
+                    destinationLabel.setTextFill(Color.WHITE);
+                    this.allDestinations.getChildren().add(destinationLabel);
+                }
 
-            //CARTES
-            Map<CouleurWagon, Integer> cartesPlayer = CouleurWagon.compteur(this.jeu.joueurCourantProperty().getValue().getCartesWagon());
-            System.out.println("CartesJoueurs = " + cartesPlayer.toString());
+                //CARTES
+                Map<CouleurWagon, Integer> cartesPlayer = CouleurWagon.compteur(this.jeu.joueurCourantProperty().getValue().getCartesWagon());
+                System.out.println("CartesJoueurs = " + cartesPlayer.toString());
 
-            //this.ORANGETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.ORANGE)));
-            this.ORANGETXT.set(String.valueOf(cartesPlayer.get(CouleurWagon.ORANGE)));
-            /*this.BLANCTXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.BLANC)));
-            this.BLEUTXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.BLEU)));
-            this.ROSETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.ROSE)));
-            this.ROUGETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.ROUGE)));
-            this.LOCOMOTIVETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.LOCOMOTIVE)));
-            this.VERTTXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.VERT)));
-            this.JAUNETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.JAUNE)));
-            this.NOIRTXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.NOIR)));*/
+                //this.ORANGETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.ORANGE)));
+                this.ORANGETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.ORANGE)));
+                this.BLANCTXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.BLANC)));
+                this.BLEUTXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.BLEU)));
+                this.ROSETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.ROSE)));
+                this.ROUGETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.ROUGE)));
+                this.LOCOMOTIVETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.LOCOMOTIVE)));
+                this.VERTTXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.VERT)));
+                this.JAUNETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.JAUNE)));
+                this.NOIRTXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.NOIR)));
+            });
         });
     }
 

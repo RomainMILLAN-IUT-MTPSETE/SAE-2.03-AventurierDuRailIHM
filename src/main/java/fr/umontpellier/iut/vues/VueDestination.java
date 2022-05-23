@@ -1,7 +1,11 @@
 package fr.umontpellier.iut.vues;
 
+
 import fr.umontpellier.iut.IDestination;
+import fr.umontpellier.iut.IJeu;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 /**
  * Cette classe représente la vue d'une carte Destination.
@@ -11,9 +15,14 @@ import javafx.scene.layout.Pane;
 public class VueDestination extends Pane {
 
     private IDestination destination;
+    Button button;
+    VBox vbox;
 
     public VueDestination(IDestination destination) {
         this.destination = destination;
+        button = new Button(destination.getNom());
+
+        this.getChildren().add(button);
     }
 
     public IDestination getDestination() {

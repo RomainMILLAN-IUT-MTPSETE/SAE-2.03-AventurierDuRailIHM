@@ -3,7 +3,10 @@ package fr.umontpellier.iut.vues;
 import fr.umontpellier.iut.ICouleurWagon;
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.rails.CouleurWagon;
+import fr.umontpellier.iut.rails.Destination;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.collections.ListChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,6 +17,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+
+import java.util.List;
 
 /**
  * Cette classe correspond à la fenêtre principale de l'application.
@@ -28,7 +33,7 @@ public class VueDuJeu extends BorderPane {
 
     private IJeu jeu;
     //private VuePlateau plateau;
-    private Image plateau;
+    Image plateau;
     private ImageView plateauView;
     private VueJoueurCourant joueurCourant;
     private VueAutresJoueurs autresJoueurs;
@@ -36,7 +41,14 @@ public class VueDuJeu extends BorderPane {
     private Label titlePage;
 
     //BOTTOM
+    BorderPane bas;
+    HBox cartesVisibles;
     Button passer;
+    HBox listDestinationCard;
+    VBox bottomCenter;
+    ImageView cardWagonNotVisible;
+    ImageView cardDestination;
+    VBox bottomLeftCard;
 
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
@@ -45,11 +57,6 @@ public class VueDuJeu extends BorderPane {
         this.setMinHeight(900);
         this.setMinWidth(1600);
         this.setStyle("-fx-background-color: #F3DEC4");
-
-        this.jeu.getJoueurs().get(2).getCartesWagon().add(CouleurWagon.LOCOMOTIVE);
-        this.jeu.getJoueurs().get(2).getCartesWagon().add(CouleurWagon.LOCOMOTIVE);
-        this.jeu.getJoueurs().get(2).getCartesWagon().add(CouleurWagon.LOCOMOTIVE);
-        this.jeu.getJoueurs().get(2).getCartesWagon().add(CouleurWagon.LOCOMOTIVE);
 
         //HAUT
         BorderPane haut = new BorderPane();
@@ -70,7 +77,7 @@ public class VueDuJeu extends BorderPane {
         rulesButton.setTranslateY(10);
         rulesButton.setStyle("-fx-background-color: #E8D9C7; -fx-border-radius: 10px; -fx-border-color: #000;");
         rulesButton.setOnMouseClicked(e -> {
-            System.out.println("Règles");
+            //System.out.println("Règles");
         });
         haut.setLeft(rulesButton);
 
@@ -94,18 +101,35 @@ public class VueDuJeu extends BorderPane {
         //this.plateauView.setTranslateY(-75);
 
         //Card
-        BorderPane bas = new BorderPane();
+        bas = new BorderPane();
+        bottomCenter = new VBox();
         //Cartes Visibles
-        HBox cartesVisibles = new HBox();
-        for(int i=0; i<5; i++){
-            cartesVisibles.getChildren().add(new VueCarteWagon(CouleurWagon.LOCOMOTIVE));
-        }
+        cartesVisibles = new HBox();
         cartesVisibles.setSpacing(10);
         bas.setAlignment(cartesVisibles, Pos.CENTER);
         //Passer
         passer = new Button("Passer");
-        bas.setTop(cartesVisibles);
+        bottomCenter.getChildren().addAll(cartesVisibles);
         bas.setRight(passer);
+        //Destinations
+        listDestinationCard = new HBox();
+        listDestinationCard.setTranslateY(20);
+        bottomCenter.getChildren().addAll(listDestinationCard);
+        bas.setCenter(bottomCenter);
+        //LEFT - Card
+        bottomLeftCard = new VBox();
+        cardWagonNotVisible = new ImageView(new Image("images/wagons.png"));
+        cardWagonNotVisible.setFitHeight(75);
+        cardWagonNotVisible.setFitWidth(115);
+        cardWagonNotVisible.setTranslateY(-50);
+        cardDestination = new ImageView(new Image("images/destinations.png"));
+        cardDestination.setFitHeight(75);
+        cardDestination.setFitWidth(115);
+        cardDestination.setTranslateY(-25);
+        bottomLeftCard.getChildren().addAll(cardWagonNotVisible, cardDestination);
+        bottomLeftCard.setTranslateX(25);
+        bas.setLeft(bottomLeftCard);
+
 
         this.setLeft(joueurCourant);
         this.setRight(autresJoueurs);
@@ -139,6 +163,39 @@ public class VueDuJeu extends BorderPane {
 
         this.passer.setOnAction(e -> {
             this.jeu.passerAEteChoisi();
+        });
+
+        this.jeu.destinationsInitialesProperty().addListener((ListChangeListener<? super Destination>) e -> {
+            Platform.runLater(() -> {
+                List<? extends Destination> destinationsListTemp = e.getList();
+
+                this.listDestinationCard.getChildren().clear();
+                for(int i=0; i<destinationsListTemp.size(); i++){
+                    VueDestination vd = new VueDestination(destinationsListTemp.get(i));
+                    this.listDestinationCard.getChildren().addAll(vd);
+
+                    vd.setOnMouseClicked(event -> {
+                        this.jeu.uneDestinationAEteChoisie(vd.getDestination().getNom());
+                    });
+                }
+            });
+
+        });
+
+        this.jeu.cartesWagonVisiblesProperty().addListener((ListChangeListener<? super CouleurWagon>) e -> {
+            Platform.runLater(() -> {
+                List<? extends CouleurWagon> cardWagonVisibles = e.getList();
+
+                this.cartesVisibles.getChildren().clear();
+                for(int i=0; i<cardWagonVisibles.size(); i++){
+                    VueCarteWagon vcw = new VueCarteWagon(cardWagonVisibles.get(i));
+                    this.cartesVisibles.getChildren().addAll(vcw);
+
+                    vcw.setOnMouseClicked(event -> {
+                        this.jeu.uneCarteWagonAEteChoisie(vcw.getCouleurWagon());
+                    });
+                }
+            });
         });
     }
 
