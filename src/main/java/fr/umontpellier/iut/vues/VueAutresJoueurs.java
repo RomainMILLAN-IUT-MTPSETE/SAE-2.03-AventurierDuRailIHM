@@ -1,8 +1,12 @@
 package fr.umontpellier.iut.vues;
 
 import fr.umontpellier.iut.IJeu;
+import fr.umontpellier.iut.IJoueur;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -12,31 +16,32 @@ import javafx.scene.layout.Pane;
  *
  * On y définit les bindings sur le joueur courant, ainsi que le listener à exécuter lorsque ce joueur change
  */
-public class VueAutresJoueurs extends GridPane {
-    private IJeu jeu;
-    private GridPane pane;
+public class VueAutresJoueurs extends BorderPane {
+
+    private IJoueur joueur;
 
     private Label namePlayer;
-    private Image imagePlayer;
+    private ImageView imagePlayer;
 
-    public VueAutresJoueurs(IJeu jeu){
-        pane = new GridPane();
+    public VueAutresJoueurs(IJoueur joueur){
 
-        this.jeu = jeu;
-        this.setMaxHeight(500);
+        this.joueur = joueur;
+        this.setMaxHeight(115);
         this.setMaxWidth(350);
-        this.setPrefHeight(500);
+        this.setPrefHeight(115);
         this.setPrefWidth(350);
-        this.setStyle("-fx-background-color: red;");
+        this.setStyle("-fx-background-color: " + VueDuJeu.convertFrenchColorToEnglishColor(this.joueur.getCouleur().toString()));
         this.setTranslateY(50);
         this.setTranslateX(-5);
 
-        pane.setGridLinesVisible(true);
+        //Image player
+        imagePlayer = new ImageView(new Image("images/avatars/avatar-BLEU.png"));
+        imagePlayer.setFitWidth(100);
+        imagePlayer.setFitHeight(115);
+        namePlayer = new Label("Avatar");
 
-        namePlayer = new Label();
-        namePlayer.setText("Avatar Bleu");
-
-        pane.addRow(1, namePlayer);
+        this.setLeft(imagePlayer);
+        this.setCenter(namePlayer);
 
     }
 

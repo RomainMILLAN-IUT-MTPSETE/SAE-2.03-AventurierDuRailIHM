@@ -321,7 +321,7 @@ public class VueJoueurCourant extends BorderPane {
                 //TEXT & IMAGE
                 this.pseudo.setText(this.jeu.joueurCourantProperty().getValue().getNom());
                 this.imgViewAvatar.setImage(new Image("images/avatars/avatar-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));
-                this.setStyle("-fx-background-color: " + this.convertFrenchColorToEnglishColor(this.jeu.joueurCourantProperty().getValue().getCouleur().toString()));
+                this.setStyle("-fx-background-color: " + VueDuJeu.convertFrenchColorToEnglishColor(this.jeu.joueurCourantProperty().getValue().getCouleur().toString()));
                 this.wagonImgView.setImage(new Image("images/wagons/image-wagon-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));
                 this.wagonLabel.setText(String.valueOf(this.jeu.joueurCourantProperty().getValue().getNbWagons()));
                 this.gareImgView.setImage(new Image("images/gares/gare-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));
@@ -368,22 +368,5 @@ public class VueJoueurCourant extends BorderPane {
             });
         });
 
-    }
-
-    private String convertFrenchColorToEnglishColor(String fc){
-        String res = "white";
-        if(fc.equalsIgnoreCase("rouge")){
-            res = "#FF5C5C";
-        }else if(fc.equalsIgnoreCase("vert")){
-            res = "#00993D";
-        }else if(fc.equalsIgnoreCase("rose")){
-            res = "#7941B1";
-        }else if(fc.equalsIgnoreCase("bleu")){
-            res = "#605CFF";
-        }else if(fc.equalsIgnoreCase("jaune")){
-            res = "#E4CC09";
-        }
-
-        return res;
     }
 }

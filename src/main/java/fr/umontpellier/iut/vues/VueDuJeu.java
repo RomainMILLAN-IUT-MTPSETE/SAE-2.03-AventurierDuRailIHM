@@ -36,7 +36,10 @@ public class VueDuJeu extends BorderPane {
     VuePlateau plateau;
     private ImageView plateauView;
     private VueJoueurCourant joueurCourant;
-    private VueAutresJoueurs autresJoueurs;
+    private VBox autresJoueursBox;
+    private VueAutresJoueurs autresJoueurs01;
+    private VueAutresJoueurs autresJoueurs02;
+    private VueAutresJoueurs autresJoueurs03;
 
     private Label titlePage;
 
@@ -85,7 +88,13 @@ public class VueDuJeu extends BorderPane {
         joueurCourant = new VueJoueurCourant(this.jeu);
 
         //Joueur Autre
-        autresJoueurs = new VueAutresJoueurs(this.jeu);
+        autresJoueursBox = new VBox();
+        autresJoueurs01 = new VueAutresJoueurs(this.jeu.getJoueurs().get(1));
+        autresJoueurs02 = new VueAutresJoueurs(this.jeu.getJoueurs().get(1));
+        autresJoueurs02.setTranslateY(75);
+        autresJoueurs03 = new VueAutresJoueurs(this.jeu.getJoueurs().get(1));
+        autresJoueurs03.setTranslateY(100);
+        autresJoueursBox.getChildren().addAll(autresJoueurs01, autresJoueurs02, autresJoueurs03);
 
         //Plateau
         plateau = new VuePlateau();
@@ -139,7 +148,7 @@ public class VueDuJeu extends BorderPane {
 
 
         this.setLeft(joueurCourant);
-        this.setRight(autresJoueurs);
+        this.setRight(autresJoueursBox);
         this.setCenter(plateauView);
         this.setBottom(bas);
         this.setTop(haut);
@@ -204,6 +213,23 @@ public class VueDuJeu extends BorderPane {
                 }
             });
         });
+    }
+
+    public static String convertFrenchColorToEnglishColor(String fc){
+        String res = "white";
+        if(fc.equalsIgnoreCase("rouge")){
+            res = "#FF5C5C";
+        }else if(fc.equalsIgnoreCase("vert")){
+            res = "#00993D";
+        }else if(fc.equalsIgnoreCase("rose")){
+            res = "#7941B1";
+        }else if(fc.equalsIgnoreCase("bleu")){
+            res = "#605CFF";
+        }else if(fc.equalsIgnoreCase("jaune")){
+            res = "#E4CC09";
+        }
+
+        return res;
     }
 
 }
