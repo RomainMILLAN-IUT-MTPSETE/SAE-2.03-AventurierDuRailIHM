@@ -2,6 +2,7 @@ package fr.umontpellier.iut.vues;
 
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.rails.CouleurWagon;
+import fr.umontpellier.iut.rails.Destination;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleMapProperty;
@@ -17,10 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Cette classe présente les éléments appartenant au joueur courant.
@@ -209,46 +207,39 @@ public class VueJoueurCourant extends BorderPane {
                 backNumber = new Circle();
                 backNumber.setFill(Color.web("#4B4B4B"));
                 backNumber.setRadius(10);
-                //stack = new StackPane();
+                stack = new StackPane();
+                stack.setTranslateY(-10);
                 if(x==0 || x==3 || x==6){
                     imageCard.setTranslateX(2.5);
+                    stack.setTranslateX((imageCard.getFitWidth()/2));
                 }else if(x==1 || x==4 || x==7){
                     imageCard.setTranslateX(12.5);
+                    stack.setTranslateX((imageCard.getFitWidth()/2)+9);
                 }else if(x==2 || x==5 || x==8){
                     imageCard.setTranslateX(20);
+                    stack.setTranslateX((imageCard.getFitWidth()/2)+17.5);
                 }
 
-                /*stack.getChildren().add(backNumber);
-                switch (CouleurWagon.getCouleursNoGris().get(x)){
-                    case ORANGE -> stack.getChildren().add(this.ORANGETXT);
-                    case BLANC -> stack.getChildren().add(this.BLANCTXT);
-                    case BLEU -> stack.getChildren().add(this.BLEUTXT);
-                    case LOCOMOTIVE -> stack.getChildren().add(this.LOCOMOTIVETXT);
-                    case NOIR -> stack.getChildren().add(this.NOIRTXT);
-                    case JAUNE -> stack.getChildren().add(this.JAUNETXT);
-                    case ROSE -> stack.getChildren().add(this.ROSETXT);
-                    case VERT -> stack.getChildren().add(this.VERTTXT);
-                    case ROUGE -> stack.getChildren().add(this.ROUGETXT);
-                }*/
-                card.getChildren().addAll(imageCard);
+                stack.getChildren().add(backNumber);
+                card.getChildren().addAll(imageCard, stack);
                 if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.ORANGE){
-                    card.getChildren().add(this.ORANGETXT);
+                    stack.getChildren().add(this.ORANGETXT);
                 }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.BLANC){
-                    card.getChildren().add(this.BLANCTXT);
+                    stack.getChildren().add(this.BLANCTXT);
                 }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.BLEU){
-                    card.getChildren().add(this.BLEUTXT);
+                    stack.getChildren().add(this.BLEUTXT);
                 }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.LOCOMOTIVE){
-                    card.getChildren().add(this.LOCOMOTIVETXT);
+                    stack.getChildren().add(this.LOCOMOTIVETXT);
                 }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.NOIR){
-                    card.getChildren().add(this.NOIRTXT);
+                    stack.getChildren().add(this.NOIRTXT);
                 }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.JAUNE){
-                    card.getChildren().add(this.JAUNETXT);
+                    stack.getChildren().add(this.JAUNETXT);
                 }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.ROSE){
-                    card.getChildren().add(this.ROSETXT);
+                    stack.getChildren().add(this.ROSETXT);
                 }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.VERT){
-                    card.getChildren().add(this.VERTTXT);
+                    stack.getChildren().add(this.VERTTXT);
                 }else if(CouleurWagon.getCouleursNoGris().get(x) == CouleurWagon.ROUGE){
-                    card.getChildren().add(this.ROUGETXT);
+                    stack.getChildren().add(this.ROUGETXT);
                 }
 
                 if(x>=0 && x<3){
@@ -261,16 +252,19 @@ public class VueJoueurCourant extends BorderPane {
 
                 int finalX = x;
                 card.setOnMouseClicked(event -> {
-                    if(cartesJoueur.get(CouleurWagon.getCouleursNoGris().get(finalX)) > 0){
-                        for(int k=0; k<this.jeu.joueurCourantProperty().getValue().getCartesWagon().size(); k++){
-                            if(this.jeu.joueurCourantProperty().getValue().getCartesWagon().get(k).equals(CouleurWagon.getCouleursNoGris().get(finalX))){
-                                this.jeu.joueurCourantProperty().getValue().getCartesWagon().remove(k);
-                                System.out.println("OK");
+                    Platform.runLater(() -> {
+                        if(cartesJoueur.get(CouleurWagon.getCouleursNoGris().get(finalX)) > 0){
+                            this.jeu.uneCarteWagonAEteChoisie(CouleurWagon.getCouleursNoGris().get(finalX));
+                            for(int k=0; k<this.jeu.joueurCourantProperty().getValue().getCartesWagon().size(); k++){
+                                if(this.jeu.joueurCourantProperty().getValue().getCartesWagon().get(k).equals(CouleurWagon.getCouleursNoGris().get(finalX))){
+                                    this.jeu.joueurCourantProperty().getValue().getCartesWagon().remove(k);
+                                    System.out.println("OK");
+                                }
                             }
+                        }else {
+                            System.out.println("ERROR: Nombre de carte impossible à enlever dans les cartes du joueurs.");
                         }
-                    }else {
-                        System.out.println("ERROR: Nombre de carte impossible à enlever dans les cartes du joueurs.");
-                    }
+                    });
                 });
                 x++;
             }
@@ -334,10 +328,9 @@ public class VueJoueurCourant extends BorderPane {
                 this.gareLabel.setText(String.valueOf(this.jeu.joueurCourantProperty().getValue().getNbGares()));
 
                 //DESTINATIONS
-                this.allDestinations = new VBox();
-                for(int i=0; i<this.jeu.joueurCourantProperty().getValue().getDestinations().size(); i++){
-                    Label destinationLabel = new Label(this.jeu.joueurCourantProperty().getValue().getDestinations().get(i).getNom());
-                    destinationLabel.setFont(Font.font("QuickSand", FontWeight.NORMAL, 16));
+                this.allDestinations.getChildren().clear();
+                for(Destination d : this.jeu.joueurCourantProperty().get().getDestinations()){
+                    Label destinationLabel = new Label(d.getNom());
                     destinationLabel.setTextFill(Color.WHITE);
                     this.allDestinations.getChildren().add(destinationLabel);
                 }
@@ -346,7 +339,6 @@ public class VueJoueurCourant extends BorderPane {
                 Map<CouleurWagon, Integer> cartesPlayer = CouleurWagon.compteur(this.jeu.joueurCourantProperty().getValue().getCartesWagon());
                 System.out.println("CartesJoueurs = " + cartesPlayer.toString());
 
-                //this.ORANGETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.ORANGE)));
                 this.ORANGETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.ORANGE)));
                 this.BLANCTXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.BLANC)));
                 this.BLEUTXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.BLEU)));
@@ -356,8 +348,26 @@ public class VueJoueurCourant extends BorderPane {
                 this.VERTTXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.VERT)));
                 this.JAUNETXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.JAUNE)));
                 this.NOIRTXT.setText(String.valueOf(cartesPlayer.get(CouleurWagon.NOIR)));
+
+                this.jeu.joueurCourantProperty().get().cartesWagonProperty().addListener((ListChangeListener<? super CouleurWagon>) event -> {
+                    Platform.runLater(() -> {
+                        List<? extends CouleurWagon> listCardWagon = event.getList();
+                        Map<CouleurWagon, Integer> cartesPlayerListener = CouleurWagon.compteur(this.jeu.joueurCourantProperty().getValue().getCartesWagon());
+
+                        this.ORANGETXT.setText(String.valueOf(cartesPlayerListener.get(CouleurWagon.ORANGE)));
+                        this.BLANCTXT.setText(String.valueOf(cartesPlayerListener.get(CouleurWagon.BLANC)));
+                        this.BLEUTXT.setText(String.valueOf(cartesPlayerListener.get(CouleurWagon.BLEU)));
+                        this.ROSETXT.setText(String.valueOf(cartesPlayerListener.get(CouleurWagon.ROSE)));
+                        this.ROUGETXT.setText(String.valueOf(cartesPlayerListener.get(CouleurWagon.ROUGE)));
+                        this.LOCOMOTIVETXT.setText(String.valueOf(cartesPlayerListener.get(CouleurWagon.LOCOMOTIVE)));
+                        this.VERTTXT.setText(String.valueOf(cartesPlayerListener.get(CouleurWagon.VERT)));
+                        this.JAUNETXT.setText(String.valueOf(cartesPlayerListener.get(CouleurWagon.JAUNE)));
+                        this.NOIRTXT.setText(String.valueOf(cartesPlayerListener.get(CouleurWagon.NOIR)));
+                    });
+                });
             });
         });
+
     }
 
     private String convertFrenchColorToEnglishColor(String fc){

@@ -33,7 +33,7 @@ public class VueDuJeu extends BorderPane {
 
     private IJeu jeu;
     //private VuePlateau plateau;
-    Image plateau;
+    VuePlateau plateau;
     private ImageView plateauView;
     private VueJoueurCourant joueurCourant;
     private VueAutresJoueurs autresJoueurs;
@@ -88,9 +88,10 @@ public class VueDuJeu extends BorderPane {
         autresJoueurs = new VueAutresJoueurs(this.jeu);
 
         //Plateau
-        //plateau = new VuePlateau();
-        plateau = new Image("images/euMap.jpg");
-        plateauView = new ImageView(plateau);
+        plateau = new VuePlateau();
+        plateau.setPrefSize(0, 0);
+        /*plateau = new Image("images/euMap.jpg");*/
+        plateauView = new ImageView(new Image("images/euMap.jpg"));
         //ORIGINAL:
         //Width: 3402
         //Heigt: 2194
@@ -122,10 +123,16 @@ public class VueDuJeu extends BorderPane {
         cardWagonNotVisible.setFitHeight(75);
         cardWagonNotVisible.setFitWidth(115);
         cardWagonNotVisible.setTranslateY(-50);
+        cardWagonNotVisible.setOnMouseClicked(e -> {
+            this.jeu.uneCarteWagonAEtePiochee();
+        });
         cardDestination = new ImageView(new Image("images/destinations.png"));
         cardDestination.setFitHeight(75);
         cardDestination.setFitWidth(115);
         cardDestination.setTranslateY(-25);
+        cardDestination.setOnMouseClicked(e -> {
+            this.jeu.uneDestinationAEtePiochee();
+        });
         bottomLeftCard.getChildren().addAll(cardWagonNotVisible, cardDestination);
         bottomLeftCard.setTranslateX(25);
         bas.setLeft(bottomLeftCard);
@@ -174,7 +181,7 @@ public class VueDuJeu extends BorderPane {
                     VueDestination vd = new VueDestination(destinationsListTemp.get(i));
                     this.listDestinationCard.getChildren().addAll(vd);
 
-                    vd.setOnMouseClicked(event -> {
+                    vd.getChildren().get(0).setOnMouseClicked(event -> {
                         this.jeu.uneDestinationAEteChoisie(vd.getDestination().getNom());
                     });
                 }
