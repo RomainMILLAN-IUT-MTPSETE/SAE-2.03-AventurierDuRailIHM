@@ -95,15 +95,15 @@ public class VueDuJeu extends BorderPane {
         autresJoueursBox = new VBox();
         autresJoueurs01 = new VueAutresJoueurs(this.jeu.getJoueurs().get(1));
         if(this.jeu.getJoueurs().size() >= 2){
-            autresJoueurs02 = new VueAutresJoueurs(this.jeu.getJoueurs().get(1));
+            autresJoueurs02 = new VueAutresJoueurs(this.jeu.getJoueurs().get(2));
             autresJoueurs02.setTranslateY(75);
         }
         if(this.jeu.getJoueurs().size() >= 4){
-            autresJoueurs03 = new VueAutresJoueurs(this.jeu.getJoueurs().get(1));
+            autresJoueurs03 = new VueAutresJoueurs(this.jeu.getJoueurs().get(3));
             autresJoueurs03.setTranslateY(100);
         }
         if(this.jeu.getJoueurs().size() >= 5){
-            autresJoueurs04 = new VueAutresJoueurs(this.jeu.getJoueurs().get(1));
+            autresJoueurs04 = new VueAutresJoueurs(this.jeu.getJoueurs().get(4));
             autresJoueurs04.setTranslateY(125);
         }
 

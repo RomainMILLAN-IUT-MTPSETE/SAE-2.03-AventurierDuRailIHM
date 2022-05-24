@@ -79,30 +79,27 @@ public class VueAutresJoueurs extends GridPane {
         wagonBox.getChildren().addAll(wagonImg, wagonLabel);
         this.gareBox.setTranslateY(20);
         this.wagonBox.setTranslateY(20);
-        //SCORe
-        //scoreLabel = new Label("Score: " + String.valueOf(this.joueur.getScore()));
-        scoreLabel = new Label("Score: 10");
+        //SCORE
+        scoreLabel = new Label("Score: " + String.valueOf(this.joueur.getScore()));
         this.scoreLabel.setTextFill(Color.WHITE);
         this.scoreLabel.setFont(Font.font("Cabin", FontWeight.NORMAL, 15));
-        this.scoreLabel.setTranslateY((this.getPrefHeight()/2)-10);
         if(this.joueur.getScore() > 99){
-            this.scoreLabel.setTranslateX(this.getPrefWidth()/2-80);
+            this.scoreLabel.setTranslateX(this.getPrefWidth()/2-10);
         }else if(this.joueur.getScore() > 999){
-            this.scoreLabel.setTranslateX(this.getPrefWidth()/2-95);
+            this.scoreLabel.setTranslateX(this.getPrefWidth()/2-20);
         }else {
-            this.scoreLabel.setTranslateX(this.getPrefWidth()/2-70);
+            this.scoreLabel.setTranslateX(this.getPrefWidth()/2);
         }
-        scoreLabel.setAlignment(Pos.BOTTOM_RIGHT);
 
 
         this.contentPane.addRow(0, namePlayer);
         this.contentPane.addRow(1, gareBox);
         this.contentPane.addRow(2, wagonBox);
+        this.contentPane.addRow(3, scoreLabel);
 
 
         this.addColumn(0, imagePlayer);
         this.addColumn(1, contentPane);
-        this.addColumn(2, scoreLabel);
         this.setAlignment(Pos.CENTER_LEFT);
 
     }
