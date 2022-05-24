@@ -364,6 +364,8 @@ public class VueJoueurCourant extends BorderPane {
                         this.NOIRTXT.setText(String.valueOf(cartesPlayerListener.get(CouleurWagon.NOIR)));
                     });
                 });
+
+                //CarteSelectioné
             });
         });
 

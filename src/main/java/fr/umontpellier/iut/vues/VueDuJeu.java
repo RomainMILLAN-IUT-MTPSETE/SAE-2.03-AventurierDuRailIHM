@@ -47,6 +47,8 @@ public class VueDuJeu extends BorderPane {
 
     private Label titlePage;
 
+    private Label instruction;
+
     //BOTTOM
     BorderPane bas;
     HBox cartesVisibles;
@@ -56,6 +58,7 @@ public class VueDuJeu extends BorderPane {
     ImageView cardWagonNotVisible;
     ImageView cardDestination;
     VBox bottomLeftCard;
+    VBox bottomRight;
 
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
@@ -94,7 +97,7 @@ public class VueDuJeu extends BorderPane {
         //Joueur Autre
         autresJoueursBox = new VBox();
         autresJoueurs01 = new VueAutresJoueurs(this.jeu.getJoueurs().get(1));
-        if(this.jeu.getJoueurs().size() >= 2){
+        if(this.jeu.getJoueurs().size() >= 3){
             autresJoueurs02 = new VueAutresJoueurs(this.jeu.getJoueurs().get(2));
             autresJoueurs02.setTranslateY(75);
         }
@@ -119,37 +122,33 @@ public class VueDuJeu extends BorderPane {
         }else if(this.jeu.getJoueurs().size() == 5){
             autresJoueursBox.getChildren().addAll(autresJoueurs01, autresJoueurs02, autresJoueurs03, autresJoueurs04);
         }
-
         //Plateau
         plateau = new VuePlateau();
         plateau.setTranslateX(0);
         plateau.setTranslateY(0);
-        /*plateau = new Image("images/euMap.jpg");*/
-        //plateauView = new ImageView(new Image("images/euMap.jpg"));
-        //ORIGINAL:
-        //Width: 3402
-        //Heigt: 2194
-        /*plateauView.setFitWidth(850.5);
-        plateauView.setFitHeight(548.5);*/
-        //
-        //this.plateauView.setTranslateX(-100);
-        //this.plateauView.setTranslateY(-75);
 
         //Card
         bas = new BorderPane();
         bottomCenter = new VBox();
+        bottomCenter.setAlignment(Pos.CENTER);
+        //bottomCenter.setTranslateX((this.getPrefWidth()/4)-75);
+        instruction = new Label("Recherche de l'instruction en cour : ");
+        instruction.setFont(Font.font("Cabin", FontWeight.MEDIUM, 18));
+        instruction.setTranslateY(-15);
+        bottomCenter.getChildren().add(instruction);
         //Cartes Visibles
         cartesVisibles = new HBox();
+        cartesVisibles.setAlignment(Pos.CENTER);
         cartesVisibles.setSpacing(10);
-        bas.setAlignment(cartesVisibles, Pos.CENTER);
-        //Passer
-        passer = new Button("Passer");
-        bottomCenter.getChildren().addAll(cartesVisibles);
-        bas.setRight(passer);
+
         //Destinations
         listDestinationCard = new HBox();
-        listDestinationCard.setTranslateY(20);
+        listDestinationCard.setAlignment(Pos.CENTER);
+        listDestinationCard.setSpacing(7.5);
+
+        bottomCenter.getChildren().addAll(cartesVisibles);
         bottomCenter.getChildren().addAll(listDestinationCard);
+        bottomCenter.setTranslateY(-25);
         bas.setCenter(bottomCenter);
         //LEFT - Card
         bottomLeftCard = new VBox();
@@ -170,6 +169,12 @@ public class VueDuJeu extends BorderPane {
         bottomLeftCard.getChildren().addAll(cardWagonNotVisible, cardDestination);
         bottomLeftCard.setTranslateX(25);
         bas.setLeft(bottomLeftCard);
+        //Bottom Right
+        bottomRight = new VBox();
+        //Passer
+        passer = new Button("Passer");
+        bottomRight.getChildren().addAll(passer);
+        bas.setRight(bottomRight);
 
 
         this.setLeft(joueurCourant);
@@ -263,6 +268,10 @@ public class VueDuJeu extends BorderPane {
                 this.autresJoueurs03.setJoueur(autreJoueurs.get(2));
                 this.autresJoueurs04.setJoueur(autreJoueurs.get(3));
             }
+        });
+
+        this.jeu.instructionProperty().addListener(e -> {
+            this.instruction.setText(this.jeu.instructionProperty().getValue());
         });
     }
 
