@@ -1,6 +1,7 @@
 package fr.umontpellier.iut.vues;
 
 import fr.umontpellier.iut.IJeu;
+import fr.umontpellier.iut.IJoueur;
 import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Destination;
 import javafx.application.Platform;
@@ -255,12 +256,6 @@ public class VueJoueurCourant extends BorderPane {
                     Platform.runLater(() -> {
                         if(cartesJoueur.get(CouleurWagon.getCouleursNoGris().get(finalX)) > 0){
                             this.jeu.uneCarteWagonAEteChoisie(CouleurWagon.getCouleursNoGris().get(finalX));
-                            for(int k=0; k<this.jeu.joueurCourantProperty().getValue().getCartesWagon().size(); k++){
-                                if(this.jeu.joueurCourantProperty().getValue().getCartesWagon().get(k).equals(CouleurWagon.getCouleursNoGris().get(finalX))){
-                                    this.jeu.joueurCourantProperty().getValue().getCartesWagon().remove(k);
-                                    System.out.println("OK");
-                                }
-                            }
                         }else {
                             System.out.println("ERROR: Nombre de carte impossible à enlever dans les cartes du joueurs.");
                         }
