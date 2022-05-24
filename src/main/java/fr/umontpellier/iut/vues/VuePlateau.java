@@ -1,10 +1,15 @@
 package fr.umontpellier.iut.vues;
 
+import fr.umontpellier.iut.IJeu;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * Cette classe présente les routes et les villes sur le plateau.
@@ -24,10 +29,21 @@ public class VuePlateau extends Pane {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        IJeu jeu = ((VueDuJeu) getScene().getRoot()).getJeu();
     }
 
     @FXML
-    public void choixRouteOuVille() {
-
+    public void choixRouteOuVille(MouseEvent e) {
+        IJeu jeu = ((VueDuJeu) getScene().getRoot()).getJeu();
+        String source = String.valueOf(e.getSource());
+        if (source.startsWith("Group")) {
+            source = source.substring(9);
+            source = source.replace(source.substring(source.length() - 1), "");
+            jeu.uneVilleOuUneRouteAEteChoisie(source);
+        } else {
+            jeu.uneVilleOuUneRouteAEteChoisie(e.getPickResult().getIntersectedNode().getId());
+        }
     }
+
 }

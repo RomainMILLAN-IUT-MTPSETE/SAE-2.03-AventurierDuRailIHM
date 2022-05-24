@@ -39,7 +39,7 @@ import java.util.Optional;
  */
 public class VueDuJeu extends BorderPane {
 
-    private IJeu jeu;
+    public IJeu jeu;
     //private VuePlateau plateau;
     Button rulesButton;
     VuePlateau plateau;
@@ -308,5 +308,7 @@ public class VueDuJeu extends BorderPane {
 
         return res;
     }
+
+
 
 }
