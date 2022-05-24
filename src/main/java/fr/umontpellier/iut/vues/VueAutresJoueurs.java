@@ -106,4 +106,17 @@ public class VueAutresJoueurs extends GridPane {
 
     }
 
+    public void setJoueur(IJoueur joueur) {
+        this.joueur = joueur;
+
+        this.setStyle("-fx-background-color: " + VueDuJeu.convertFrenchColorToEnglishColor(joueur.getCouleur().toString()));
+        this.namePlayer.setText(joueur.getNom());
+        imagePlayer = new ImageView(new Image("images/avatars/avatar-" + joueur.getCouleur().toString().toUpperCase() + ".png"));
+        this.gareImg = new ImageView(new Image("images/gares/gare-" + joueur.getCouleur().toString().toUpperCase() + ".png"));
+        this.wagonImg = new ImageView(new Image("images/wagons/image-wagon-" + joueur.getCouleur().toString().toUpperCase() + ".png"));
+        this.gareLabel.setText(String.valueOf(joueur.getNbGares()));
+        this.wagonLabel.setText(String.valueOf(joueur.getNbWagons()));
+        this.scoreLabel.setText("Score: " + String.valueOf(joueur.getScore()));
+
+    }
 }

@@ -2,8 +2,10 @@ package fr.umontpellier.iut.vues;
 
 import fr.umontpellier.iut.ICouleurWagon;
 import fr.umontpellier.iut.IJeu;
+import fr.umontpellier.iut.IJoueur;
 import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Destination;
+import fr.umontpellier.iut.rails.Joueur;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ListChangeListener;
@@ -18,6 +20,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +43,7 @@ public class VueDuJeu extends BorderPane {
     private VueAutresJoueurs autresJoueurs01;
     private VueAutresJoueurs autresJoueurs02;
     private VueAutresJoueurs autresJoueurs03;
+    private VueAutresJoueurs autresJoueurs04;
 
     private Label titlePage;
 
@@ -90,11 +94,31 @@ public class VueDuJeu extends BorderPane {
         //Joueur Autre
         autresJoueursBox = new VBox();
         autresJoueurs01 = new VueAutresJoueurs(this.jeu.getJoueurs().get(1));
-        autresJoueurs02 = new VueAutresJoueurs(this.jeu.getJoueurs().get(1));
-        autresJoueurs02.setTranslateY(75);
-        autresJoueurs03 = new VueAutresJoueurs(this.jeu.getJoueurs().get(1));
-        autresJoueurs03.setTranslateY(100);
-        autresJoueursBox.getChildren().addAll(autresJoueurs01, autresJoueurs02, autresJoueurs03);
+        if(this.jeu.getJoueurs().size() >= 2){
+            autresJoueurs02 = new VueAutresJoueurs(this.jeu.getJoueurs().get(1));
+            autresJoueurs02.setTranslateY(75);
+        }
+        if(this.jeu.getJoueurs().size() >= 4){
+            autresJoueurs03 = new VueAutresJoueurs(this.jeu.getJoueurs().get(1));
+            autresJoueurs03.setTranslateY(100);
+        }
+        if(this.jeu.getJoueurs().size() >= 5){
+            autresJoueurs04 = new VueAutresJoueurs(this.jeu.getJoueurs().get(1));
+            autresJoueurs04.setTranslateY(125);
+        }
+
+        System.out.println(this.jeu.getJoueurs().size());
+        if(this.jeu.getJoueurs().size() == 2){
+            autresJoueursBox.getChildren().addAll(autresJoueurs01);
+        }else if(this.jeu.getJoueurs().size() == 3){
+            autresJoueursBox.getChildren().addAll(autresJoueurs01, autresJoueurs02);
+
+        }else if(this.jeu.getJoueurs().size() == 4){
+            autresJoueursBox.getChildren().addAll(autresJoueurs01, autresJoueurs02, autresJoueurs03);
+
+        }else if(this.jeu.getJoueurs().size() == 5){
+            autresJoueursBox.getChildren().addAll(autresJoueurs01, autresJoueurs02, autresJoueurs03, autresJoueurs04);
+        }
 
         //Plateau
         plateau = new VuePlateau();
@@ -212,6 +236,36 @@ public class VueDuJeu extends BorderPane {
                     });
                 }
             });
+        });
+
+        this.jeu.joueurCourantProperty().addListener(e -> {
+            ArrayList<Joueur> autreJoueurs = new ArrayList<Joueur>();
+            for(Joueur j : this.jeu.getJoueurs()){
+                if(!j.equals(this.jeu.joueurCourantProperty().get())){
+                    autreJoueurs.add(j);
+                }
+            }
+
+            for(Joueur j : autreJoueurs){
+                System.out.println(j);
+            }
+
+            if(autreJoueurs.size() == 1){
+                this.autresJoueurs01.setJoueur(autreJoueurs.get(0));
+
+            }else if(autreJoueurs.size() == 2){
+                this.autresJoueurs01.setJoueur(autreJoueurs.get(0));
+                this.autresJoueurs02.setJoueur(autreJoueurs.get(1));
+            }else if(autreJoueurs.size() == 3){
+                this.autresJoueurs01.setJoueur(autreJoueurs.get(0));
+                this.autresJoueurs02.setJoueur(autreJoueurs.get(1));
+                this.autresJoueurs03.setJoueur(autreJoueurs.get(2));
+            }else if(autreJoueurs.size() == 4){
+                this.autresJoueurs01.setJoueur(autreJoueurs.get(0));
+                this.autresJoueurs02.setJoueur(autreJoueurs.get(1));
+                this.autresJoueurs03.setJoueur(autreJoueurs.get(2));
+                this.autresJoueurs04.setJoueur(autreJoueurs.get(3));
+            }
         });
     }
 
