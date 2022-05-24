@@ -6,11 +6,14 @@ import fr.umontpellier.iut.IJoueur;
 import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Destination;
 import fr.umontpellier.iut.rails.Joueur;
+import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,8 +23,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Cette classe correspond à la fenêtre principale de l'application.
@@ -36,6 +41,7 @@ public class VueDuJeu extends BorderPane {
 
     private IJeu jeu;
     //private VuePlateau plateau;
+    Button rulesButton;
     VuePlateau plateau;
     private ImageView plateauView;
     private VueJoueurCourant joueurCourant;
@@ -79,7 +85,7 @@ public class VueDuJeu extends BorderPane {
         haut.setAlignment(titlePage, Pos.CENTER);
 
         //REGLES
-        Button rulesButton = new Button("Règles");
+        rulesButton = new Button("Règles");
         rulesButton.setText("Règles");
         rulesButton.setPrefWidth(100);
         rulesButton.setPrefHeight(30);
@@ -206,6 +212,17 @@ public class VueDuJeu extends BorderPane {
             this.plateauView.setFitWidth(this.getWidth()/1.75);
             this.joueurCourant.setPrefWidth(this.getWidth()/5);
         });*/
+
+        this.rulesButton.setOnAction(e -> {
+            /*Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Les règles");
+            alert.setContentText("Peut-on vous envoyer sur un site de règle ?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                Platform.exit();
+            }*/
+
+        });
 
         this.passer.setOnAction(e -> {
             this.jeu.passerAEteChoisi();
