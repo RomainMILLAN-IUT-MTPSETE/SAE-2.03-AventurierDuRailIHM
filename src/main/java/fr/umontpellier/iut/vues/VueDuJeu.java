@@ -246,10 +246,6 @@ public class VueDuJeu extends BorderPane {
                 }
             }
 
-            for(Joueur j : autreJoueurs){
-                System.out.println(j);
-            }
-
             if(autreJoueurs.size() == 1){
                 this.autresJoueurs01.setJoueur(autreJoueurs.get(0));
 
