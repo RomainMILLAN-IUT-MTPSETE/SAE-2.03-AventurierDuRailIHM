@@ -335,6 +335,10 @@ public class VueJoueurCourant extends BorderPane {
                     this.allDestinations.getChildren().add(destinationLabel);
                 }
 
+                if(this.jeu.joueurCourantProperty().getValue().getDestinations().size() > 0){
+                    this.gareEtWagon.setTranslateX(this.allDestinations.getWidth()/5);
+                }
+
                 //CARTES
                 Map<CouleurWagon, Integer> cartesPlayer = CouleurWagon.compteur(this.jeu.joueurCourantProperty().getValue().getCartesWagon());
                 System.out.println("CartesJoueurs = " + cartesPlayer.toString());
