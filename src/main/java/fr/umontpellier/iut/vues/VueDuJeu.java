@@ -122,14 +122,15 @@ public class VueDuJeu extends BorderPane {
 
         //Plateau
         plateau = new VuePlateau();
-        plateau.setPrefSize(0, 0);
+        plateau.setTranslateX(0);
+        plateau.setTranslateY(0);
         /*plateau = new Image("images/euMap.jpg");*/
-        plateauView = new ImageView(new Image("images/euMap.jpg"));
+        //plateauView = new ImageView(new Image("images/euMap.jpg"));
         //ORIGINAL:
         //Width: 3402
         //Heigt: 2194
-        plateauView.setFitWidth(850.5);
-        plateauView.setFitHeight(548.5);
+        /*plateauView.setFitWidth(850.5);
+        plateauView.setFitHeight(548.5);*/
         //
         //this.plateauView.setTranslateX(-100);
         //this.plateauView.setTranslateY(-75);
@@ -173,7 +174,7 @@ public class VueDuJeu extends BorderPane {
 
         this.setLeft(joueurCourant);
         this.setRight(autresJoueursBox);
-        this.setCenter(plateauView);
+        this.setCenter(plateau);
         this.setBottom(bas);
         this.setTop(haut);
     }
