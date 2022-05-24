@@ -2,6 +2,7 @@ package fr.umontpellier.iut.vues;
 
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.IJoueur;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -107,16 +108,17 @@ public class VueAutresJoueurs extends GridPane {
     }
 
     public void setJoueur(IJoueur joueur) {
-        this.joueur = joueur;
+        Platform.runLater(() -> {
+            this.joueur = joueur;
 
-        this.setStyle("-fx-background-color: " + VueDuJeu.convertFrenchColorToEnglishColor(joueur.getCouleur().toString()));
-        this.namePlayer.setText(joueur.getNom());
-        imagePlayer = new ImageView(new Image("images/avatars/avatar-" + joueur.getCouleur().toString().toUpperCase() + ".png"));
-        this.gareImg = new ImageView(new Image("images/gares/gare-" + joueur.getCouleur().toString().toUpperCase() + ".png"));
-        this.wagonImg = new ImageView(new Image("images/wagons/image-wagon-" + joueur.getCouleur().toString().toUpperCase() + ".png"));
-        this.gareLabel.setText(String.valueOf(joueur.getNbGares()));
-        this.wagonLabel.setText(String.valueOf(joueur.getNbWagons()));
-        this.scoreLabel.setText("Score: " + String.valueOf(joueur.getScore()));
-
+            this.setStyle("-fx-background-color: " + VueDuJeu.convertFrenchColorToEnglishColor(joueur.getCouleur().toString()));
+            this.namePlayer.setText(joueur.getNom());
+            imagePlayer.setImage(new Image("images/avatars/avatar-" + joueur.getCouleur().toString().toUpperCase() + ".png"));
+            this.gareImg.setImage(new Image("images/gares/gare-" + joueur.getCouleur().toString().toUpperCase() + ".png"));
+            this.wagonImg.setImage(new Image("images/wagons/image-wagon-" + joueur.getCouleur().toString().toUpperCase() + ".png"));
+            this.gareLabel.setText(String.valueOf(joueur.getNbGares()));
+            this.wagonLabel.setText(String.valueOf(joueur.getNbWagons()));
+            this.scoreLabel.setText("Score: " + String.valueOf(joueur.getScore()));
+        });
     }
 }
