@@ -130,8 +130,11 @@ public class VueDuJeu extends BorderPane {
         }
         //Plateau
         plateau = new VuePlateau();
-        plateau.setTranslateX(0);
-        plateau.setTranslateY(0);
+        plateauView = new ImageView(new Image("images/euMap.jpg"));
+        plateauView.setFitHeight(100);
+        plateauView.setFitWidth(100);
+        plateauView.setTranslateY(0);
+        plateauView.setTranslateX(0);
 
         //Card
         bas = new BorderPane();
@@ -195,6 +198,7 @@ public class VueDuJeu extends BorderPane {
     }
 
     public void creerBindings() {
+        plateau.creerBindings();
         /**
          * this.heightProperty().addListener(e -> {
          *             System.out.println("toto");
