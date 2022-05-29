@@ -30,7 +30,6 @@ public class VuePlateau extends Pane {
             e.printStackTrace();
         }
 
-        IJeu jeu = ((VueDuJeu) getScene().getRoot()).getJeu();
     }
 
     @FXML
