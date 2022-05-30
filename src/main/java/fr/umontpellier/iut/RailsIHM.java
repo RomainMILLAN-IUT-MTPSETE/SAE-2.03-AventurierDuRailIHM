@@ -23,15 +23,20 @@ public class RailsIHM extends Application {
     private Stage primaryStage;
     private ServiceDuJeu serviceDuJeu;
 
-    private boolean avecVueChoixJoueurs = false;
+    private boolean avecVueChoixJoueurs = true;
+
+    private Stage stage;
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         if (avecVueChoixJoueurs) {
-            vueChoixJoueurs = new VueChoixJoueurs();
+            vueChoixJoueurs = new VueChoixJoueurs(this);
             vueChoixJoueurs.setNomsDesJoueursDefinisListener(quandLesNomsJoueursSontDefinis);
-            vueChoixJoueurs.show();
+            stage = new Stage();
+            stage.setScene(new Scene(vueChoixJoueurs));
+            stage.setTitle("Les Aventuriers du Rails - Sélection des joueurs");
+            stage.show();
         } else {
             demarrerPartie();
         }
@@ -39,9 +44,11 @@ public class RailsIHM extends Application {
 
     public void demarrerPartie() {
         List<String> nomsJoueurs;
-        if (avecVueChoixJoueurs)
+        if (avecVueChoixJoueurs){
             nomsJoueurs = vueChoixJoueurs.getNomsJoueurs();
-        else {
+            System.out.println(nomsJoueurs.toString());
+            stage.close();
+        }else {
             nomsJoueurs = new ArrayList<>();
             nomsJoueurs.add("Guybrush");
             nomsJoueurs.add("Largo");
@@ -92,6 +99,10 @@ public class RailsIHM extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void closeSelectPlayer(){
+        stage.close();
     }
 
 }
