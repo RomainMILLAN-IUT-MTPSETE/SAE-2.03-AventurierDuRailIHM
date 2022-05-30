@@ -12,6 +12,7 @@ import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -88,9 +89,16 @@ public class VueJoueurCourant extends BorderPane {
         this.setMinSize(200, 200);
         this.setPrefHeight(500);
         this.setPrefWidth(300);
-        this.setStyle("-fx-background-color: green");
+        this.setStyle("-fx-background-color: green;");
         this.setTranslateY(50);
         this.setTranslateX(5);
+
+        DropShadow ds = new DropShadow();
+        ds.setRadius(5.0);
+        ds.setColor(Color.WHITE);
+        ds.setOffsetY(1);
+        ds.setOffsetX(1);
+        this.setEffect(ds);
 
         /*
         TOP
@@ -316,7 +324,7 @@ public class VueJoueurCourant extends BorderPane {
                 //TEXT & IMAGE
                 this.pseudo.setText(this.jeu.joueurCourantProperty().getValue().getNom());
                 this.imgViewAvatar.setImage(new Image("images/avatars/avatar-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));
-                this.setStyle("-fx-background-color: " + VueDuJeu.convertFrenchColorToEnglishColor(this.jeu.joueurCourantProperty().getValue().getCouleur().toString()));
+                this.setStyle("-fx-background-color: " + VueDuJeu.convertFrenchColorToEnglishColor(this.jeu.joueurCourantProperty().getValue().getCouleur().toString()) + "; -fx-background-radius: 3px;");
                 this.wagonImgView.setImage(new Image("images/wagons/image-wagon-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));
                 this.wagonLabel.setText(String.valueOf(this.jeu.joueurCourantProperty().getValue().getNbWagons()));
                 this.gareImgView.setImage(new Image("images/gares/gare-" + this.jeu.joueurCourantProperty().getValue().getCouleur().toString() + ".png"));

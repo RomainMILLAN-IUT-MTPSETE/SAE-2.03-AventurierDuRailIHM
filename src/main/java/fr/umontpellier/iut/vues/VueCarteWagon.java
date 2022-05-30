@@ -31,6 +31,7 @@ public class VueCarteWagon extends Pane {
 
         imgviewCard.setFitWidth(124);
         imgviewCard.setFitHeight(80);
+        
         this.getChildren().add(imgviewCard);
     }
 

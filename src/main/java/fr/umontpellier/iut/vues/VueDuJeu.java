@@ -16,6 +16,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -66,6 +67,8 @@ public class VueDuJeu extends BorderPane {
     ImageView cardDestination;
     VBox bottomLeftCard;
     VBox bottomRight;
+    StackPane stackCardDestination;
+    StackPane stackCardWagonNotVisible;
 
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
@@ -162,30 +165,79 @@ public class VueDuJeu extends BorderPane {
         bas.setCenter(bottomCenter);
         //LEFT - Card
         bottomLeftCard = new VBox();
-        cardWagonNotVisible = new ImageView(new Image("images/wagons.png"));
-        cardWagonNotVisible.setFitHeight(75);
-        cardWagonNotVisible.setFitWidth(115);
-        cardWagonNotVisible.setTranslateY(-50);
-        cardWagonNotVisible.setOnMouseClicked(e -> {
+        stackCardWagonNotVisible = new StackPane();
+        for(int i=0; i<5; i++){
+            cardWagonNotVisible = new ImageView(new Image("images/wagons.png"));
+            cardWagonNotVisible.setFitHeight(75);
+            cardWagonNotVisible.setFitWidth(115);
+            cardWagonNotVisible.setTranslateY(-50);
+            if(i==1){
+                cardWagonNotVisible.setRotate(-11.3);
+            }else if(i==2){
+                cardWagonNotVisible.setRotate(12.5);
+            }else if(i==3){
+                cardWagonNotVisible.setRotate(10.5);
+            }else if(i==4){
+                cardWagonNotVisible.setRotate(-2);
+            }
+            stackCardWagonNotVisible.getChildren().add(cardWagonNotVisible);
+        }
+
+        stackCardWagonNotVisible.setOnMouseClicked(e -> {
             this.jeu.uneCarteWagonAEtePiochee();
         });
-        cardDestination = new ImageView(new Image("images/destinations.png"));
-        cardDestination.setFitHeight(75);
-        cardDestination.setFitWidth(115);
-        cardDestination.setTranslateY(-25);
-        cardDestination.setOnMouseClicked(e -> {
+        stackCardDestination = new StackPane();
+
+        for(int i=0; i<5; i++){
+            cardDestination = new ImageView(new Image("images/destinations.png"));
+            cardDestination.setFitHeight(75);
+            cardDestination.setFitWidth(115);
+            cardDestination.setTranslateY(-25);
+            if(i==1){
+                cardDestination.setRotate(12.5);
+            }else if(i==2){
+                cardDestination.setRotate(-11.3);
+            }else if(i==3){
+                cardDestination.setRotate(9.5);
+            }else if(i==4){
+                cardDestination.setRotate(4);
+            }
+            stackCardDestination.getChildren().add(cardDestination);
+        }
+
+        stackCardDestination.setOnMouseClicked(e -> {
             this.jeu.uneDestinationAEtePiochee();
         });
-        bottomLeftCard.getChildren().addAll(cardWagonNotVisible, cardDestination);
+        bottomLeftCard.getChildren().addAll(stackCardWagonNotVisible, stackCardDestination);
         bottomLeftCard.setTranslateX(25);
         bas.setLeft(bottomLeftCard);
         //Bottom Right
         bottomRight = new VBox();
         //Passer
         passer = new Button("Passer");
-        bottomRight.getChildren().addAll(passer);
-        bas.setRight(bottomRight);
+        passer.setStyle("-fx-background-color: #F6E7D4; -fx-background-radius: 7.5px; -fx-border-radius: 7.5px;");
+        passer.setPrefWidth(250);
+        passer.setPrefHeight(40);
+        passer.setFont(Font.font("Cabin", FontWeight.MEDIUM, 17.5));
+        passer.setTranslateX(-(passer.getPrefWidth()/3));
+        passer.setTranslateY(50);
+        passer.setOnMouseEntered(e -> {
+            passer.setStyle("-fx-background-color: #FFE6C7");
+        });
+        passer.setOnMouseExited(e -> {
+            passer.setStyle("-fx-background-color: #F6E7D4");
+        });
 
+        DropShadow ds = new DropShadow();
+        ds.setOffsetX(1.5);
+        ds.setOffsetY(1.5);
+        ds.setRadius(1);
+        ds.setColor(Color.BLACK);
+        passer.setEffect(ds);
+
+        bottomRight.getChildren().addAll(passer);
+
+        bas.setRight(bottomRight);
 
         this.setLeft(joueurCourant);
         this.setRight(autresJoueursBox);

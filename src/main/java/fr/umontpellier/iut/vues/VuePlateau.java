@@ -73,7 +73,7 @@ public class VuePlateau extends Pane {
         image.fitHeightProperty().bind(getScene().heightProperty().divide(2));
         image.fitWidthProperty().bind(getScene().widthProperty().divide(2));
         getScene().widthProperty().addListener(e -> {
-            this.setTranslateX(((1326 - (getScene().getWidth()/2))/2)+100);
+            this.setTranslateX(((1326 - (getScene().getWidth()/2))/2)+50);
         });
         getScene().heightProperty().addListener(e -> {
             this.setTranslateY((855 - (getScene().getHeight()/2))/2);
