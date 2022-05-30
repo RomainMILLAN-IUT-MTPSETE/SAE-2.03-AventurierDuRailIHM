@@ -6,6 +6,7 @@ import fr.umontpellier.iut.IJoueur;
 import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Destination;
 import fr.umontpellier.iut.rails.Joueur;
+import fr.umontpellier.iut.rails.Route;
 import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -294,6 +295,8 @@ public class VueDuJeu extends BorderPane {
         this.jeu.instructionProperty().addListener(e -> {
             this.instruction.setText(this.jeu.instructionProperty().getValue());
         });
+
+
     }
 
     public static String convertFrenchColorToEnglishColor(String fc){

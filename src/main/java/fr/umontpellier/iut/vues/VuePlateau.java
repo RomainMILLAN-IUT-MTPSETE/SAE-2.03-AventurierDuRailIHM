@@ -1,15 +1,20 @@
 package fr.umontpellier.iut.vues;
 
 import fr.umontpellier.iut.IJeu;
+import fr.umontpellier.iut.rails.Route;
 import javafx.beans.binding.DoubleBinding;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
@@ -143,6 +148,10 @@ public class VuePlateau extends Pane {
 
     private void bindRoutes() {
         for (Node nRoute : routes.getChildren()) {
+            /*Image wagonImg = new Image("images/wagons/image-wagon-BLEU.png");
+            ImagePattern wagonImgPattern = new ImagePattern(wagonImg);
+            rect.setFill(wagonImgPattern);*/
+
             Group gRoute = (Group) nRoute;
             int numRect = 0;
             for (Node nRect : gRoute.getChildren()) {
