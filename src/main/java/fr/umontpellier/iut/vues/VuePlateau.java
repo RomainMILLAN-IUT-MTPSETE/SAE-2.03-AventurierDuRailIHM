@@ -10,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -78,8 +80,8 @@ public class VuePlateau extends Pane {
                                     Rectangle rect = (Rectangle) nRect;
                                     //rect.setFill();
                                     //rect.setFill(new Color(1,0,0,1.0));
-                                    rect.setFill(Color.web(VueDuJeu.convertFrenchColorToEnglishColor(r.getProprietaire().getCouleur().toString())));
-                                    //rect.setFill(new ImagePattern(new Image("images/wagons/image-wagon-" + r.getProprietaire().getCouleur().toString() + ".png")));
+                                    //rect.setFill(Color.web(VueDuJeu.convertFrenchColorToEnglishColor(r.getProprietaire().getCouleur().toString())));
+                                    rect.setFill(new ImagePattern(new Image("images/wagons/image-wagon-" + r.getProprietaire().getCouleur().toString() + ".png")));
                                     //rect.setFill(new ImagePattern(new Image("images/wagons/image-wagon-BLEU.png")));
                                     bindRectangle(rect, DonneesPlateau.getRoute(nRoute.getId()).get(numRect).getLayoutX(), DonneesPlateau.getRoute(nRoute.getId()).get(numRect).getLayoutY());
                                     numRect++;
@@ -118,6 +120,10 @@ public class VuePlateau extends Pane {
     private Group routes;
 
     public void creerBindings() {
+
+        Lighting l = new Lighting(new Light.Distant(30,30,Color.WHITE));
+        l.setDiffuseConstant(100);
+        image.setEffect(l);
         bindRedimensionPlateau();
     }
 
