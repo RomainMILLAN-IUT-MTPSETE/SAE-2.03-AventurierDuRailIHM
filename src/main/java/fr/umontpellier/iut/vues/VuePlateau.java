@@ -15,9 +15,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
+import javax.swing.event.ChangeListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,6 +31,7 @@ import java.util.ResourceBundle;
  * ainsi que les bindings qui mettront ?à jour le plateau après la prise d'une route ou d'une ville par un joueur
  */
 public class VuePlateau extends Pane {
+    private Boolean listenerSet = false;
 
     public VuePlateau() {
         try {
@@ -52,6 +55,41 @@ public class VuePlateau extends Pane {
             jeu.uneVilleOuUneRouteAEteChoisie(source);
         } else {
             jeu.uneVilleOuUneRouteAEteChoisie(e.getPickResult().getIntersectedNode().getId());
+        }
+
+        for(int i=0; i<jeu.getRoutes().size(); i++){
+            Route r = (Route) jeu.getRoutes().get(i);
+            if(r.getProprietaire() == null){
+                r.proprietaireProperty().addListener(event -> {
+                    for (Node nRoute : routes.getChildren()) {
+                        Group gRoute = (Group) nRoute;
+                        //System.out.println(nRoute);
+                        String stringRoute = String.valueOf(nRoute);
+                        if (stringRoute.startsWith("Group")) {
+                            stringRoute = stringRoute.substring(9);
+                            stringRoute = stringRoute.replace(stringRoute.substring(stringRoute.length() - 1), "");
+                        }
+                        /*System.out.println(stringRoute);
+                        System.out.println(r.getVille1() + " - " + r.getVille2());
+                        System.out.println(" ");*/
+                        if(stringRoute.equalsIgnoreCase(r.getVille1() + " - " + r.getVille2()) || stringRoute.equalsIgnoreCase(r.getVille2() + " - " + r.getVille1())){
+                            System.out.println("Hi");
+                            int numRect = 0;
+                            for (Node nRect : gRoute.getChildren()) {
+                                Rectangle rect = (Rectangle) nRect;
+                                //rect.setFill();
+                                //rect.setFill(new Color(1,0,0,1.0));
+                                //rect.setFill(Color.web(VueDuJeu.convertFrenchColorToEnglishColor(r.getProprietaire().getCouleur().toString())));
+                                rect.setFill(new ImagePattern(new Image("images/wagons/image-wagon-" + r.getProprietaire().getCouleur().toString() + ".png")));
+                                //rect.setFill(new ImagePattern(new Image("images/wagons/image-wagon-BLEU.png")));
+                                bindRectangle(rect, DonneesPlateau.getRoute(nRoute.getId()).get(numRect).getLayoutX(), DonneesPlateau.getRoute(nRoute.getId()).get(numRect).getLayoutY());
+                                numRect++;
+                            }
+                        }
+
+                    }
+                });
+            }
         }
     }
 
@@ -148,14 +186,12 @@ public class VuePlateau extends Pane {
 
     private void bindRoutes() {
         for (Node nRoute : routes.getChildren()) {
-            /*Image wagonImg = new Image("images/wagons/image-wagon-BLEU.png");
-            ImagePattern wagonImgPattern = new ImagePattern(wagonImg);
-            rect.setFill(wagonImgPattern);*/
-
             Group gRoute = (Group) nRoute;
             int numRect = 0;
             for (Node nRect : gRoute.getChildren()) {
                 Rectangle rect = (Rectangle) nRect;
+                rect.setFill(new Color(0,0,0,0.0));
+                //rect.setFill(new ImagePattern(new Image("images/wagons/image-wagon-BLEU.png")));
                 bindRectangle(rect, DonneesPlateau.getRoute(nRoute.getId()).get(numRect).getLayoutX(), DonneesPlateau.getRoute(nRoute.getId()).get(numRect).getLayoutY());
                 numRect++;
             }
@@ -165,6 +201,7 @@ public class VuePlateau extends Pane {
     private void bindVilles() {
         for (Node nVille : villes.getChildren()) {
             Circle ville = (Circle) nVille;
+            ville.setFill(new Color(0,0,0,0.0));
             bindVille(ville, DonneesPlateau.getVille(ville.getId()).getLayoutX(), DonneesPlateau.getVille(ville.getId()).getLayoutY());
         }
     }
