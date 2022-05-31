@@ -131,14 +131,28 @@ public class VuePlateau extends Pane {
         bindRoutes();
         bindVilles();
         image.setPreserveRatio(true);
-        image.fitHeightProperty().bind(getScene().heightProperty().divide(2));
-        image.fitWidthProperty().bind(getScene().widthProperty().divide(2));
+        image.setFitWidth(300);
+        this.getScene().widthProperty().addListener(e -> {
+            this.setMinWidth(getScene().getWidth()/1.75);
+            this.setWidth(getScene().getWidth()/1.75);
+        });
+        this.getScene().heightProperty().addListener(e -> {
+            this.setMinHeight(getScene().getHeight()/1.75);
+            this.setHeight(getScene().getHeight()/1.75);
+        });
+        image.fitHeightProperty().bind(getScene().heightProperty().divide(1.75));
+        image.fitWidthProperty().bind(getScene().widthProperty().divide(1.75));
+        /*BorderPane
         getScene().widthProperty().addListener(e -> {
-            this.setTranslateX(((1326 - (getScene().getWidth()/2))/2)+50);
+            this.setTranslateX(((1326 - (getScene().getWidth()/2))/3)+100);
         });
         getScene().heightProperty().addListener(e -> {
-            this.setTranslateY((855 - (getScene().getHeight()/2))/2);
-        });
+            this.setTranslateY((855 - (getScene().getHeight()/2))/3);
+        });*/
+        /*GridPane*/
+        this.setTranslateX(50);
+        this.setTranslateY(50);
+
         /*image.fitWidthProperty().addListener(e ->{
             /*double X = (1326-image.getFitWidth())/ 2;
             double Y = (855-image.getFitHeight())/ 2;

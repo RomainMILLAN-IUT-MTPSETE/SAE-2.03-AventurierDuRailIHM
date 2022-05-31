@@ -42,7 +42,7 @@ import java.util.Optional;
  * (le joueur courant, les 5 cartes Wagons visibles, les destinations lors de l'étape d'initialisation de la partie, ...)
  * ainsi que les listeners à exécuter lorsque ces éléments changent
  */
-public class VueDuJeu extends BorderPane {
+public class VueDuJeu extends GridPane {
 
     public IJeu jeu;
     //private VuePlateau plateau;
@@ -61,7 +61,7 @@ public class VueDuJeu extends BorderPane {
     private Label instruction;
 
     //BOTTOM
-    BorderPane bas;
+    HBox bas;
     HBox cartesVisibles;
     Button passer;
     HBox listDestinationCard;
@@ -75,22 +75,24 @@ public class VueDuJeu extends BorderPane {
 
     public VueDuJeu(IJeu jeu) {
         this.jeu = jeu;
-        this.setPrefHeight(900);
-        this.setPrefWidth(1600);
-        this.setMinHeight(900);
-        this.setMinWidth(1600);
-
+        this.setPrefHeight(720);
+        this.setPrefWidth(1300);
+        this.setMinHeight(720);
+        this.setMinWidth(1300);
+        this.setMaxHeight(720);
+        this.setHeight(720);
         this.setStyle("-fx-background-color: #F3DEC4");
 
         //HAUT
-        BorderPane haut = new BorderPane();
+        HBox haut = new HBox();
 
         titlePage = new Label("Les Aventuriers du Rail - Europe");
-        titlePage.setPrefWidth(750);
         titlePage.setAlignment(Pos.CENTER);
-        titlePage.setFont(Font.font("../resources/fonts/Dancing_Script/DancingScript-VariableFont_wght.ttf", FontWeight.NORMAL, 35));
-        haut.setCenter(titlePage);
-        haut.setAlignment(titlePage, Pos.CENTER);
+        titlePage.setFont(Font.font("../resources/fonts/Dancing_Script/DancingScript-VariableFont_wght.ttf", FontWeight.NORMAL, 30));
+        haut.setPrefWidth(this.getPrefWidth());
+        haut.setMinWidth(1280);
+        haut.setMaxWidth(this.getPrefWidth());
+        haut.setAlignment(Pos.CENTER);
 
         //REGLES
         rulesButton = new Button("Règles");
@@ -100,12 +102,15 @@ public class VueDuJeu extends BorderPane {
         rulesButton.setTranslateX(10);
         rulesButton.setTranslateY(10);
         rulesButton.setStyle("-fx-background-color: #E8D9C7; -fx-border-radius: 10px; -fx-border-color: #000;");
+        rulesButton.setTranslateX(-(this.getPrefWidth()/10));
         rulesButton.setOnMouseClicked(e -> {
             //System.out.println("Règles");
             new RailsIHM().openRules();
         });
-        haut.setLeft(rulesButton);
+        haut.getChildren().addAll(rulesButton, titlePage);
 
+
+        HBox centerBox = new HBox();
         //Joueur Courant
         joueurCourant = new VueJoueurCourant(this.jeu);
 
@@ -139,6 +144,7 @@ public class VueDuJeu extends BorderPane {
         }
         //Plateau
         plateau = new VuePlateau();
+        plateau.setMaxWidth(700);
         plateauView = new ImageView(new Image("images/euMap.jpg"));
         plateauView.setFitHeight(100);
         plateauView.setFitWidth(100);
@@ -146,7 +152,7 @@ public class VueDuJeu extends BorderPane {
         plateauView.setTranslateX(0);
 
         //Card
-        bas = new BorderPane();
+        bas = new HBox();
         bottomCenter = new VBox();
         bottomCenter.setAlignment(Pos.CENTER);
         //bottomCenter.setTranslateX((this.getPrefWidth()/4)-75);
@@ -166,57 +172,27 @@ public class VueDuJeu extends BorderPane {
 
         bottomCenter.getChildren().addAll(cartesVisibles);
         bottomCenter.getChildren().addAll(listDestinationCard);
-        bottomCenter.setTranslateY(-25);
-        bas.setCenter(bottomCenter);
+        bottomCenter.setTranslateY(-50);
         //LEFT - Card
         bottomLeftCard = new VBox();
-        stackCardWagonNotVisible = new StackPane();
-        for(int i=0; i<5; i++){
-            cardWagonNotVisible = new ImageView(new Image("images/wagons.png"));
-            cardWagonNotVisible.setFitHeight(75);
-            cardWagonNotVisible.setFitWidth(115);
-            cardWagonNotVisible.setTranslateY(-50);
-            if(i==1){
-                cardWagonNotVisible.setRotate(-11.3);
-            }else if(i==2){
-                cardWagonNotVisible.setRotate(12.5);
-            }else if(i==3){
-                cardWagonNotVisible.setRotate(10.5);
-            }else if(i==4){
-                cardWagonNotVisible.setRotate(-2);
-            }
-            stackCardWagonNotVisible.getChildren().add(cardWagonNotVisible);
-        }
+        cardWagonNotVisible = new ImageView(new Image("images/wagons.png"));
+        cardWagonNotVisible.setFitHeight(75);
+        cardWagonNotVisible.setFitWidth(115);
+        cardWagonNotVisible.setTranslateY(-50);
+        cardWagonNotVisible.setPreserveRatio(true);
 
-        stackCardWagonNotVisible.setOnMouseClicked(e -> {
-            this.jeu.uneCarteWagonAEtePiochee();
-        });
-        stackCardDestination = new StackPane();
+        cardDestination = new ImageView(new Image("images/destinations.png"));
+        cardDestination.setFitHeight(75);
+        cardDestination.setFitWidth(115);
+        cardDestination.setTranslateY(-50);
+        cardDestination.setPreserveRatio(true);
 
-        for(int i=0; i<5; i++){
-            cardDestination = new ImageView(new Image("images/destinations.png"));
-            cardDestination.setFitHeight(75);
-            cardDestination.setFitWidth(115);
-            cardDestination.setTranslateY(-25);
-            if(i==1){
-                cardDestination.setRotate(12.5);
-            }else if(i==2){
-                cardDestination.setRotate(-11.3);
-            }else if(i==3){
-                cardDestination.setRotate(9.5);
-            }else if(i==4){
-                cardDestination.setRotate(4);
-            }
-            stackCardDestination.getChildren().add(cardDestination);
-        }
-
-        stackCardDestination.setOnMouseClicked(e -> {
+        cardWagonNotVisible.setOnMouseClicked(e -> {
             this.jeu.uneDestinationAEtePiochee();
         });
-        bottomLeftCard.getChildren().addAll(stackCardWagonNotVisible, stackCardDestination);
+        bottomLeftCard.getChildren().addAll(cardWagonNotVisible, cardDestination);
         bottomLeftCard.setTranslateX(25);
-        bas.setLeft(bottomLeftCard);
-        //Bottom Right
+        //BOTTOM RIGHT
         bottomRight = new VBox();
         //Passer
         passer = new Button("Passer");
@@ -224,8 +200,7 @@ public class VueDuJeu extends BorderPane {
         passer.setPrefWidth(250);
         passer.setPrefHeight(40);
         passer.setFont(Font.font("Cabin", FontWeight.MEDIUM, 17.5));
-        passer.setTranslateX(-(passer.getPrefWidth()/3));
-        passer.setTranslateY(50);
+        passer.setTranslateY(30);
         passer.setOnMouseEntered(e -> {
             passer.setStyle("-fx-background-color: #FFE6C7");
         });
@@ -239,16 +214,32 @@ public class VueDuJeu extends BorderPane {
         ds.setRadius(1);
         ds.setColor(Color.BLACK);
         passer.setEffect(ds);
+        bottomCenter.getChildren().addAll(passer);
 
-        bottomRight.getChildren().addAll(passer);
+        bas.setPrefWidth(1300);
+        bas.setMaxWidth(1300);
+        bas.setMinWidth(1300);
+        bottomCenter.setAlignment(Pos.CENTER);
+        bas.getChildren().addAll(bottomLeftCard, bottomCenter);
+        bas.setPrefWidth(1300);
 
-        bas.setRight(bottomRight);
 
-        this.setLeft(joueurCourant);
+        /*this.setLeft(joueurCourant);
         this.setRight(autresJoueursBox);
         this.setCenter(plateau);
         this.setBottom(bas);
-        this.setTop(haut);
+        this.setTop(haut);*/
+
+
+
+        VBox leftBox = new VBox();
+        leftBox.getChildren().addAll(joueurCourant, autresJoueursBox);
+
+        autresJoueursBox.setAlignment(Pos.TOP_RIGHT);
+        centerBox.getChildren().addAll(leftBox, plateau, autresJoueursBox);
+        this.addRow(0, haut);
+        this.addRow(1, centerBox);
+        this.addRow(2, bas);
     }
 
     public IJeu getJeu() {
@@ -257,30 +248,38 @@ public class VueDuJeu extends BorderPane {
 
     public void creerBindings() {
         plateau.creerBindings();
-        /**
-         * this.heightProperty().addListener(e -> {
-         *             System.out.println("toto");
-         *         });
-         *
-         *         this.widthProperty().addListener(e -> {
-         *             System.out.println("tata");
-         *         });
-         */
-        /*this.heightProperty().addListener(e -> {
+        this.heightProperty().addListener(e -> {
             this.plateauView.setFitHeight(this.getHeight()/1.75);
+            if(this.getHeight()<750){
+                this.cardDestination.setTranslateY(-5);
+                this.cardWagonNotVisible.setTranslateY(-20);
+            }else {
+                this.cardDestination.setTranslateY(-25);
+                this.cardWagonNotVisible.setTranslateY(-50);
+            }
+            this.cardWagonNotVisible.setFitHeight(this.getHeight()/12.5);
+            this.cardDestination.setFitHeight(this.getHeight()/12.5);
+            this.joueurCourant.setPrefHeight(this.getHeight()/2);
             //this.joueurCourant.setPrefHeight(this.getHeight()/500);
         });
         this.widthProperty().addListener(e -> {
             this.plateauView.setFitWidth(this.getWidth()/1.75);
             this.joueurCourant.setPrefWidth(this.getWidth()/5);
-        });*/
+            this.bas.setPrefWidth(this.getWidth());
+            this.bottomCenter.setPrefWidth(this.getWidth());
+
+            //this.bottomRight.setPrefWidth(this.getWidth());
+            //this.passer.setPrefWidth(this.getWidth()/2);
+        });
         this.passer.setOnAction(e -> {
             this.jeu.passerAEteChoisi();
         });
 
         this.jeu.destinationsInitialesProperty().addListener((ListChangeListener<? super Destination>) e -> {
+            System.out.println("T");
             Platform.runLater(() -> {
                 List<? extends Destination> destinationsListTemp = e.getList();
+                this.cartesVisibles.getChildren().clear();
 
                 this.listDestinationCard.getChildren().clear();
                 for(int i=0; i<destinationsListTemp.size(); i++){
@@ -290,6 +289,18 @@ public class VueDuJeu extends BorderPane {
                     vd.getChildren().get(0).setOnMouseClicked(event -> {
                         this.jeu.uneDestinationAEteChoisie(vd.getDestination().getNom());
                     });
+                }
+
+
+                if(this.jeu.destinationsInitialesProperty().size() == 0){
+                    for(int i=0; i<this.jeu.cartesWagonVisiblesProperty().size(); i++){
+                        VueCarteWagon vcw = new VueCarteWagon(this.jeu.cartesWagonVisiblesProperty().get(i));
+                        this.cartesVisibles.getChildren().addAll(vcw);
+
+                        vcw.setOnMouseClicked(event -> {
+                            this.jeu.uneCarteWagonAEteChoisie(vcw.getCouleurWagon());
+                        });
+                    }
                 }
             });
 

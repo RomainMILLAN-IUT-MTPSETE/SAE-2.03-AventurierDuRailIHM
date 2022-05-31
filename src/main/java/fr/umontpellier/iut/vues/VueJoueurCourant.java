@@ -86,12 +86,13 @@ public class VueJoueurCourant extends BorderPane {
     public VueJoueurCourant(IJeu jeu){
         this.jeu = jeu;
         this.setMaxHeight(500);
-        this.setMinSize(200, 200);
         this.setPrefHeight(500);
         this.setPrefWidth(300);
         this.setStyle("-fx-background-color: green;");
         this.setTranslateY(50);
         this.setTranslateX(5);
+        this.setMinWidth(300);
+        this.setMinHeight(400);
 
         DropShadow ds = new DropShadow();
         ds.setRadius(5.0);
@@ -282,23 +283,6 @@ public class VueJoueurCourant extends BorderPane {
         center.getChildren().addAll(cardTitle, cardAll);
         this.setCenter(center);
 
-
-        /*
-        BOTTOM
-         */
-        bottom = new VBox();
-        cardSelectTitle = new Label("Cartes sélectionné:");
-        cardSelectTitle.setFont(Font.font("QuickSand", FontWeight.MEDIUM, 18));
-        cardSelectTitle.setStyle("-fx-underline: true");
-        cardSelectTitle.setTextFill(Color.WHITE);
-        allCardSelected = new HBox();
-        allCardSelected.setTranslateX(5);
-
-        bottom.getChildren().addAll(cardSelectTitle, allCardSelected);
-        bottom.setTranslateY(-10);
-        bottom.setTranslateX(10);
-        this.setBottom(bottom);
-
         this.createBinding();
     }
 
@@ -310,15 +294,9 @@ public class VueJoueurCourant extends BorderPane {
         return namePlayer;
     }
 
+
+
     private void createBinding(){
-        /*this.widthProperty().addListener(e -> {
-            this.gareEtWagon.setTranslateX(this.getWidth()/7.5);
-        });
-
-        this.heightProperty().addListener(e -> {
-            this.setPrefHeight(this.getHeight()/1.5);
-        });*/
-
         this.jeu.joueurCourantProperty().addListener(e -> {
             Platform.runLater(() -> {
                 //System.out.println(this.jeu.joueurCourantProperty().getValue().cartesWagonProperty().filtered());

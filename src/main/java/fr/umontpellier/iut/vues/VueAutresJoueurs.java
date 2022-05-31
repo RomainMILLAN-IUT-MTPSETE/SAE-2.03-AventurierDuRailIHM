@@ -44,10 +44,12 @@ public class VueAutresJoueurs extends GridPane {
         this.setMaxHeight(115);
         this.setMaxWidth(350);
         this.setPrefHeight(115);
-        this.setPrefWidth(350);
+        //this.setPrefWidth(250);
+        this.setMinHeight(115);
+        this.setMinWidth(250);
         this.setStyle("-fx-background-color: " + VueDuJeu.convertFrenchColorToEnglishColor(this.joueur.getCouleur().toString()));
         this.setTranslateY(50);
-        this.setTranslateX(-5);
+        //this.setTranslateX(-450);
 
         //Image player
         imagePlayer = new ImageView(new Image("images/avatars/avatar-" + this.joueur.getCouleur().toString().toUpperCase() + ".png"));
@@ -95,7 +97,7 @@ public class VueAutresJoueurs extends GridPane {
         this.contentPane.addRow(0, namePlayer);
         this.contentPane.addRow(1, gareBox);
         this.contentPane.addRow(2, wagonBox);
-        this.contentPane.addRow(3, scoreLabel);
+        //this.contentPane.addRow(3, scoreLabel);
 
 
         this.addColumn(0, imagePlayer);
@@ -109,7 +111,7 @@ public class VueAutresJoueurs extends GridPane {
             this.joueur = joueur;
 
             this.setStyle("-fx-background-color: " + VueDuJeu.convertFrenchColorToEnglishColor(joueur.getCouleur().toString()));
-            this.namePlayer.setText(joueur.getNom());
+            this.namePlayer.setText(joueur.getNom() + "(" + joueur.getScore() + ")");
             imagePlayer.setImage(new Image("images/avatars/avatar-" + joueur.getCouleur().toString().toUpperCase() + ".png"));
             this.gareImg.setImage(new Image("images/gares/gare-" + joueur.getCouleur().toString().toUpperCase() + ".png"));
             this.wagonImg.setImage(new Image("images/wagons/image-wagon-" + joueur.getCouleur().toString().toUpperCase() + ".png"));
