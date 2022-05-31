@@ -2,6 +2,7 @@ package fr.umontpellier.iut.vues;
 
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.rails.Route;
+import fr.umontpellier.iut.rails.Ville;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -85,6 +86,22 @@ public class VuePlateau extends Pane {
                                 }
                             }
 
+                        }
+                    });
+                }
+            }
+            for(int i=0; i<jeu.getVilles().size(); i++){
+                Ville v = (Ville) jeu.getVilles().get(i);
+                if(v.getProprietaire() == null){
+                    v.proprietaireProperty().addListener(event -> {
+                        System.out.println("Ville - Changement de proprietaire");
+                        for (Node nVille : villes.getChildren()) {
+                            if(nVille.getId().equals(v.getNom())){
+                                Circle ville = (Circle) nVille;
+                                //ville.setFill(new Color(1,0,0,1.0));
+                                //ville.setFill(Color.web(VueDuJeu.convertFrenchColorToEnglishColor(v.getProprietaire().getCouleur().toString())));
+                                ville.setFill(new ImagePattern(new Image("images/gares/gare-" + v.getProprietaire().getCouleur().toString() + ".png")));
+                            }
                         }
                     });
                 }
