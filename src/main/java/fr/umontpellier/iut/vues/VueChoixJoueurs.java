@@ -265,11 +265,12 @@ public class VueChoixJoueurs extends GridPane {
 
                 VBox j1Box = new VBox();
                 j1img = new ImageView(new Image("images/avatars/avatar-BLEU.png"));
-                j1img.setFitWidth(150);
-                j1img.setFitHeight(175);
+                j1img.setFitWidth(this.getWidth()/10);
+                j1img.setFitHeight(this.getWidth()/8);
                 j1img.setTranslateX(22.5);
                 j1tf = new TextField();
                 j1tf.setTranslateY(10);
+                j1tf.setPrefWidth(this.getWidth()/8);
                 j1tf.setPromptText("Joueur 1");
                 j1tf.setFont(Font.font("Cabin", FontPosture.REGULAR, 15));
                 j1tf.setStyle("-fx-background-color: #E5E5E5; -fx-background-radius: 5px; -fx-border-color: #B9B9B9; -fx-border-radius: 5px");
@@ -278,11 +279,12 @@ public class VueChoixJoueurs extends GridPane {
 
                 VBox j2Box = new VBox();
                 j2img = new ImageView(new Image("images/avatars/avatar-JAUNE.png"));
-                j2img.setFitWidth(150);
-                j2img.setFitHeight(175);
+                j2img.setFitWidth(this.getWidth()/10);
+                j2img.setFitHeight(this.getWidth()/8);
                 j2img.setTranslateX(22.5);
                 j2tf = new TextField();
                 j2tf.setTranslateY(10);
+                j2tf.setPrefWidth(this.getWidth()/8);
                 j2tf.setPromptText("Joueur 2");
                 j2tf.setFont(Font.font("Cabin", FontPosture.REGULAR, 15));
                 j2tf.setStyle("-fx-background-color: #E5E5E5; -fx-background-radius: 5px; -fx-border-color: #B9B9B9; -fx-border-radius: 5px");
@@ -291,11 +293,12 @@ public class VueChoixJoueurs extends GridPane {
 
                 VBox j3Box = new VBox();
                 j3img = new ImageView(new Image("images/avatars/avatar-ROSE.png"));
-                j3img.setFitWidth(150);
-                j3img.setFitHeight(175);
+                j3img.setFitWidth(this.getWidth()/10);
+                j3img.setFitHeight(this.getWidth()/8);
                 j3img.setTranslateX(22.5);
                 j3tf = new TextField();
                 j3tf.setTranslateY(10);
+                j3tf.setPrefWidth(this.getWidth()/8);
                 j3tf.setPromptText("Joueur 3");
                 j3tf.setFont(Font.font("Cabin", FontPosture.REGULAR, 15));
                 j3tf.setStyle("-fx-background-color: #E5E5E5; -fx-background-radius: 5px; -fx-border-color: #B9B9B9; -fx-border-radius: 5px");
@@ -304,11 +307,12 @@ public class VueChoixJoueurs extends GridPane {
 
                 VBox j4Box = new VBox();
                 j4img = new ImageView(new Image("images/avatars/avatar-ROUGE.png"));
-                j4img.setFitWidth(150);
-                j4img.setFitHeight(175);
+                j4img.setFitWidth(this.getWidth()/10);
+                j4img.setFitHeight(this.getWidth()/8);
                 j4img.setTranslateX(22.5);
                 j4tf = new TextField();
                 j4tf.setTranslateY(10);
+                j4tf.setPrefWidth(this.getWidth()/8);
                 j4tf.setPromptText("Joueur 4");
                 j4tf.setFont(Font.font("Cabin", FontPosture.REGULAR, 15));
                 j4tf.setStyle("-fx-background-color: #E5E5E5; -fx-background-radius: 5px; -fx-border-color: #B9B9B9; -fx-border-radius: 5px");
@@ -317,16 +321,23 @@ public class VueChoixJoueurs extends GridPane {
 
                 VBox j5Box = new VBox();
                 j5img = new ImageView(new Image("images/avatars/avatar-VERT.png"));
-                j5img.setFitWidth(150);
-                j5img.setFitHeight(175);
-                j1img.setTranslateX(22.5);
+                j5img.setFitWidth(this.getWidth()/10);
+                j5img.setFitHeight(this.getWidth()/8);
+                j5img.setTranslateX(22.5);
                 j5tf = new TextField();
                 j5tf.setTranslateY(10);
+                j5tf.setPrefWidth(this.getWidth()/8);
                 j5tf.setPromptText("Joueur 5");
                 j5tf.setFont(Font.font("Cabin", FontPosture.REGULAR, 15));
                 j5tf.setStyle("-fx-background-color: #E5E5E5; -fx-background-radius: 5px; -fx-border-color: #B9B9B9; -fx-border-radius: 5px");
                 j5Box.getChildren().addAll(j5img, j5tf);
                 j5Box.setTranslateX(5);
+
+                j1img.setPreserveRatio(true);
+                j2img.setPreserveRatio(true);
+                j3img.setPreserveRatio(true);
+                j4img.setPreserveRatio(true);
+                j5img.setPreserveRatio(true);
 
                 if(this.nbJoueur.getValue() == 2){
                     joueurBox.getChildren().addAll(j1Box,j2Box);
@@ -339,6 +350,7 @@ public class VueChoixJoueurs extends GridPane {
                 }
             });
         });
+        this.createRedimensionnement();
     }
 
     public void enterNamePlayer(){
@@ -367,7 +379,7 @@ public class VueChoixJoueurs extends GridPane {
      * Définit l'action à exécuter lorsque la liste des participants est correctement initialisée
      */
     public void setNomsDesJoueursDefinisListener(ListChangeListener<String> quandLesNomsDesJoueursSontDefinis) {
-        
+
     }
 
     /**
@@ -414,6 +426,54 @@ public class VueChoixJoueurs extends GridPane {
     protected String getJoueurParNumero(int playerNumber) {
         //throw new RuntimeException("Methode à implémenter");
         return this.nomsJoueurs.get(playerNumber);
+    }
+
+    public void createRedimensionnement(){
+        this.heightProperty().addListener(e -> {
+            this.imageTitle.setFitHeight(this.getHeight()/8);
+            this.playButtonBox.setTranslateY(this.getHeight()/3);
+            this.imgPlus.setFitHeight(this.getHeight()/30);
+            this.imgPlus.setFitWidth(this.getHeight()/30);
+            this.play.setPrefHeight(this.getHeight()/50);
+
+            this.j1img.setFitHeight(this.getHeight()/5);
+            this.j2img.setFitHeight(this.getHeight()/5);
+            this.j3img.setFitHeight(this.getHeight()/5);
+            this.j4img.setFitHeight(this.getHeight()/5);
+            this.j5img.setFitHeight(this.getHeight()/5);
+            this.j1img.setFitWidth(this.getHeight()/6);
+            this.j2img.setFitWidth(this.getHeight()/6);
+            this.j3img.setFitWidth(this.getHeight()/6);
+            this.j4img.setFitWidth(this.getHeight()/6);
+            this.j5img.setFitWidth(this.getHeight()/6);
+        });
+        this.widthProperty().addListener(e -> {
+            this.imageTitle.setFitWidth(this.getWidth()/2);
+            this.titleBox.setPrefWidth(this.getWidth());
+            this.selectJoueurTitle.setFont(Font.font("Cabin", FontPosture.REGULAR, this.getWidth()/70));
+            this.nbLabelJoueur.setFont(Font.font("Cabin", FontPosture.REGULAR, this.getWidth()/70));
+            this.imgMoins.setFitWidth(this.getPrefWidth()/70);
+            this.imgPlus.setFitWidth(this.getPrefWidth()/70);
+            this.imgPlus.setFitHeight(this.getPrefWidth()/70);
+            this.play.setFont(Font.font("Cabin", FontPosture.REGULAR, this.getWidth()/70));
+            this.play.setPrefWidth(this.getWidth()/5);
+
+            this.j1tf.setPrefWidth(this.getWidth()/8);
+            this.j1img.setFitWidth(this.getWidth()/10);
+            this.j1img.setFitHeight(this.getWidth()/8);
+            this.j2tf.setPrefWidth(this.getWidth()/8);
+            this.j2img.setFitWidth(this.getWidth()/10);
+            this.j2img.setFitHeight(this.getWidth()/8);
+            this.j3tf.setPrefWidth(this.getWidth()/8);
+            this.j3img.setFitWidth(this.getWidth()/10);
+            this.j3img.setFitHeight(this.getWidth()/8);
+            this.j4tf.setPrefWidth(this.getWidth()/8);
+            this.j4img.setFitWidth(this.getWidth()/10);
+            this.j4img.setFitHeight(this.getWidth()/8);
+            this.j5tf.setPrefWidth(this.getWidth()/8);
+            this.j5img.setFitWidth(this.getWidth()/10);
+            this.j5img.setFitHeight(this.getWidth()/8);
+        });
     }
 
 
