@@ -79,6 +79,7 @@ public class VueDuJeu extends BorderPane {
         this.setPrefWidth(1600);
         this.setMinHeight(900);
         this.setMinWidth(1600);
+
         this.setStyle("-fx-background-color: #F3DEC4");
 
         //HAUT

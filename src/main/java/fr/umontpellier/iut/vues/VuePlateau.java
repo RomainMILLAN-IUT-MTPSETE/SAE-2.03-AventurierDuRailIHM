@@ -57,38 +57,39 @@ public class VuePlateau extends Pane {
             jeu.uneVilleOuUneRouteAEteChoisie(e.getPickResult().getIntersectedNode().getId());
         }
 
-        for(int i=0; i<jeu.getRoutes().size(); i++){
-            Route r = (Route) jeu.getRoutes().get(i);
-            if(r.getProprietaire() == null){
-                r.proprietaireProperty().addListener(event -> {
-                    for (Node nRoute : routes.getChildren()) {
-                        Group gRoute = (Group) nRoute;
-                        //System.out.println(nRoute);
-                        String stringRoute = String.valueOf(nRoute);
-                        if (stringRoute.startsWith("Group")) {
-                            stringRoute = stringRoute.substring(9);
-                            stringRoute = stringRoute.replace(stringRoute.substring(stringRoute.length() - 1), "");
-                        }
-                        /*System.out.println(stringRoute);
-                        System.out.println(r.getVille1() + " - " + r.getVille2());
-                        System.out.println(" ");*/
-                        if(stringRoute.equalsIgnoreCase(r.getVille1() + " - " + r.getVille2()) || stringRoute.equalsIgnoreCase(r.getVille2() + " - " + r.getVille1())){
-                            int numRect = 0;
-                            for (Node nRect : gRoute.getChildren()) {
-                                Rectangle rect = (Rectangle) nRect;
-                                //rect.setFill();
-                                //rect.setFill(new Color(1,0,0,1.0));
-                                rect.setFill(Color.web(VueDuJeu.convertFrenchColorToEnglishColor(r.getProprietaire().getCouleur().toString())));
-                                //rect.setFill(new ImagePattern(new Image("images/wagons/image-wagon-" + r.getProprietaire().getCouleur().toString() + ".png")));
-                                //rect.setFill(new ImagePattern(new Image("images/wagons/image-wagon-BLEU.png")));
-                                bindRectangle(rect, DonneesPlateau.getRoute(nRoute.getId()).get(numRect).getLayoutX(), DonneesPlateau.getRoute(nRoute.getId()).get(numRect).getLayoutY());
-                                numRect++;
+        if(this.listenerSet == false){
+            for(int i=0; i<jeu.getRoutes().size(); i++){
+                Route r = (Route) jeu.getRoutes().get(i);
+                if(r.getProprietaire() == null){
+                    r.proprietaireProperty().addListener(event -> {
+                        System.out.println("Route - Changement de proprietaire");
+                        for (Node nRoute : routes.getChildren()) {
+                            Group gRoute = (Group) nRoute;
+                            //System.out.println(nRoute);
+                            String stringRoute = String.valueOf(nRoute);
+                            if (stringRoute.startsWith("Group")) {
+                                stringRoute = stringRoute.substring(9);
+                                stringRoute = stringRoute.replace(stringRoute.substring(stringRoute.length() - 1), "");
                             }
-                        }
+                            if(stringRoute.equalsIgnoreCase(r.getNom()) || stringRoute.equalsIgnoreCase(r.getNom())){
+                                int numRect = 0;
+                                for (Node nRect : gRoute.getChildren()) {
+                                    Rectangle rect = (Rectangle) nRect;
+                                    //rect.setFill();
+                                    //rect.setFill(new Color(1,0,0,1.0));
+                                    rect.setFill(Color.web(VueDuJeu.convertFrenchColorToEnglishColor(r.getProprietaire().getCouleur().toString())));
+                                    //rect.setFill(new ImagePattern(new Image("images/wagons/image-wagon-" + r.getProprietaire().getCouleur().toString() + ".png")));
+                                    //rect.setFill(new ImagePattern(new Image("images/wagons/image-wagon-BLEU.png")));
+                                    bindRectangle(rect, DonneesPlateau.getRoute(nRoute.getId()).get(numRect).getLayoutX(), DonneesPlateau.getRoute(nRoute.getId()).get(numRect).getLayoutY());
+                                    numRect++;
+                                }
+                            }
 
-                    }
-                });
+                        }
+                    });
+                }
             }
+            listenerSet = true;
         }
     }
 
