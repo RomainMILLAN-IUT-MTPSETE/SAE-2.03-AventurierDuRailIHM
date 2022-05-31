@@ -23,6 +23,9 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +47,7 @@ public class VueChoixJoueurs extends GridPane {
         return nomsJoueurs;
     }
 
+    HBox titleBox;
     ImageView imageTitle;
     Label selectJoueurTitle;
 
@@ -85,12 +89,17 @@ public class VueChoixJoueurs extends GridPane {
         this.setPrefHeight(900);
         this.setStyle("-fx-background-color: #F3DEC4");
 
+        titleBox = new HBox();
+        titleBox.setPrefWidth(this.getPrefWidth());
         imageTitle = new ImageView(new Image("images/titre aventuriers du rail.png"));
-        imageTitle.setFitHeight(90);
-        imageTitle.setFitWidth(450);
+        imageTitle.setFitHeight(130);
+        imageTitle.setFitWidth(800);
+        titleBox.setAlignment(Pos.CENTER);
+        titleBox.getChildren().add(imageTitle);
+        titleBox.setTranslateY(35);
 
         selectJoueurTitle = new Label("Selection des joueurs:");
-        selectJoueurTitle.setFont(Font.font("Cabin", FontWeight.NORMAL, 22));
+        selectJoueurTitle.setFont(Font.font("Cabin", FontWeight.BLACK, 22));
         selectJoueurTitle.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
                 BorderStrokeStyle.NONE, BorderStrokeStyle.NONE, BorderStrokeStyle.SOLID, BorderStrokeStyle.NONE,
                 CornerRadii.EMPTY, new BorderWidths(1), Insets.EMPTY)));
@@ -98,12 +107,12 @@ public class VueChoixJoueurs extends GridPane {
         selectJoueurTitle.setTranslateX(45);
 
         imgPlus = new ImageView(new Image("images/plus.png"));
-        imgPlus.setFitWidth(50);
-        imgPlus.setFitHeight(50);
+        imgPlus.setFitWidth(45);
+        imgPlus.setFitHeight(45);
         btnPlus = new Button();
         btnPlus.setGraphic(imgPlus);
-        btnPlus.setPrefWidth(50);
-        btnPlus.setPrefHeight(50);
+        btnPlus.setPrefWidth(40);
+        btnPlus.setPrefHeight(40);
         btnPlus.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         btnPlus.setOnMouseClicked(e -> {
             if(this.nbJoueur.getValue() < 5){
@@ -112,10 +121,10 @@ public class VueChoixJoueurs extends GridPane {
         });
         imgMoins = new ImageView(new Image("images/signe-moins.png"));
         imgMoins.setFitHeight(50);
-        imgMoins.setFitWidth(50);
+        imgMoins.setFitWidth(40);
         btnMoins = new Button();
         btnMoins.setGraphic(imgMoins);
-        btnMoins.setPrefWidth(50);
+        btnMoins.setPrefWidth(40);
         btnMoins.setPrefHeight(50);
         btnMoins.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         btnMoins.setOnMouseClicked(e -> {
@@ -133,6 +142,7 @@ public class VueChoixJoueurs extends GridPane {
         nbJoueurBox.setAlignment(Pos.CENTER);
         nbJoueurBox.setPrefWidth(this.getPrefWidth());
         nbJoueurBox.setSpacing(25);
+        nbJoueurBox.setTranslateY(110);
 
 
         joueurBox = new HBox();
@@ -237,7 +247,7 @@ public class VueChoixJoueurs extends GridPane {
         playButtonBox.setAlignment(Pos.BOTTOM_CENTER);
 
 
-        this.addRow(0, imageTitle);
+        this.addRow(0, titleBox);
         this.addRow(1, selectJoueurTitle);
         this.addRow(2, nbJoueurBox);
         this.addRow(3, joueurBox);

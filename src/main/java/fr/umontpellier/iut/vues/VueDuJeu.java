@@ -3,6 +3,7 @@ package fr.umontpellier.iut.vues;
 import fr.umontpellier.iut.ICouleurWagon;
 import fr.umontpellier.iut.IJeu;
 import fr.umontpellier.iut.IJoueur;
+import fr.umontpellier.iut.RailsIHM;
 import fr.umontpellier.iut.rails.CouleurWagon;
 import fr.umontpellier.iut.rails.Destination;
 import fr.umontpellier.iut.rails.Joueur;
@@ -25,7 +26,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -98,6 +101,7 @@ public class VueDuJeu extends BorderPane {
         rulesButton.setStyle("-fx-background-color: #E8D9C7; -fx-border-radius: 10px; -fx-border-color: #000;");
         rulesButton.setOnMouseClicked(e -> {
             //System.out.println("Règles");
+            new RailsIHM().openRules();
         });
         haut.setLeft(rulesButton);
 
@@ -269,18 +273,6 @@ public class VueDuJeu extends BorderPane {
             this.plateauView.setFitWidth(this.getWidth()/1.75);
             this.joueurCourant.setPrefWidth(this.getWidth()/5);
         });*/
-
-        this.rulesButton.setOnAction(e -> {
-            /*Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Les règles");
-            alert.setContentText("Peut-on vous envoyer sur un site de règle ?");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                Platform.exit();
-            }*/
-
-        });
-
         this.passer.setOnAction(e -> {
             this.jeu.passerAEteChoisi();
         });

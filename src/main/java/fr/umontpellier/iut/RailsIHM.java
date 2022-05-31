@@ -4,6 +4,7 @@ import fr.umontpellier.iut.rails.ServiceDuJeu;
 import fr.umontpellier.iut.vues.VueChoixJoueurs;
 import fr.umontpellier.iut.vues.VueDuJeu;
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.concurrent.Worker;
@@ -12,6 +13,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +32,7 @@ public class RailsIHM extends Application {
     private Stage stage;
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
         this.primaryStage = primaryStage;
         if (avecVueChoixJoueurs) {
             vueChoixJoueurs = new VueChoixJoueurs(this);
@@ -88,8 +92,8 @@ public class RailsIHM extends Application {
 
     public void onStopGame() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation");
-        alert.setContentText("On arrête de jouer ?");
+        alert.setTitle("Arrêt du jeu - Confirmation");
+        alert.setContentText("Voulez-vous arrêter de jouer ?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             serviceDuJeu.getJeu().cancel();
@@ -99,6 +103,11 @@ public class RailsIHM extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void openRules(){
+        HostServices hs = getHostServices();
+        hs.showDocument("src/main/resources/rules.pdf");
     }
 
     public void closeSelectPlayer(){
