@@ -262,7 +262,8 @@ public class VueJoueurCourant extends BorderPane {
                 int finalX = x;
                 card.setOnMouseClicked(event -> {
                     Platform.runLater(() -> {
-                        if(cartesJoueur.get(CouleurWagon.getCouleursNoGris().get(finalX)) > 0){
+                        Map<CouleurWagon, Integer> cardJoueurTemp = CouleurWagon.compteur(this.jeu.joueurCourantProperty().getValue().getCartesWagon());
+                        if(cardJoueurTemp.get(CouleurWagon.getCouleursNoGris().get(finalX)) > 0){
                             this.jeu.uneCarteWagonAEteChoisie(CouleurWagon.getCouleursNoGris().get(finalX));
                         }else {
                             System.out.println("ERROR: Nombre de carte impossible à enlever dans les cartes du joueurs.");

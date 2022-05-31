@@ -73,14 +73,13 @@ public class VuePlateau extends Pane {
                         System.out.println(r.getVille1() + " - " + r.getVille2());
                         System.out.println(" ");*/
                         if(stringRoute.equalsIgnoreCase(r.getVille1() + " - " + r.getVille2()) || stringRoute.equalsIgnoreCase(r.getVille2() + " - " + r.getVille1())){
-                            System.out.println("Hi");
                             int numRect = 0;
                             for (Node nRect : gRoute.getChildren()) {
                                 Rectangle rect = (Rectangle) nRect;
                                 //rect.setFill();
                                 //rect.setFill(new Color(1,0,0,1.0));
-                                //rect.setFill(Color.web(VueDuJeu.convertFrenchColorToEnglishColor(r.getProprietaire().getCouleur().toString())));
-                                rect.setFill(new ImagePattern(new Image("images/wagons/image-wagon-" + r.getProprietaire().getCouleur().toString() + ".png")));
+                                rect.setFill(Color.web(VueDuJeu.convertFrenchColorToEnglishColor(r.getProprietaire().getCouleur().toString())));
+                                //rect.setFill(new ImagePattern(new Image("images/wagons/image-wagon-" + r.getProprietaire().getCouleur().toString() + ".png")));
                                 //rect.setFill(new ImagePattern(new Image("images/wagons/image-wagon-BLEU.png")));
                                 bindRectangle(rect, DonneesPlateau.getRoute(nRoute.getId()).get(numRect).getLayoutX(), DonneesPlateau.getRoute(nRoute.getId()).get(numRect).getLayoutY());
                                 numRect++;
