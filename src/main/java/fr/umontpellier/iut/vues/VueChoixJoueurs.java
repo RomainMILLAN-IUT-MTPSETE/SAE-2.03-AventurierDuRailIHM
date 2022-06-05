@@ -218,7 +218,7 @@ public class VueChoixJoueurs extends GridPane {
         joueurBox.setTranslateY(150);
 
         playButtonBox = new HBox();
-        play = new Button("Joueur");
+        play = new Button("Jouer");
         play.setPrefHeight(50);
         play.setPrefWidth(350);
         play.setStyle("-fx-background-color: #F6E7D4; -fx-background-radius: 25px");
